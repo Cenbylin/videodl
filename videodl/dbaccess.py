@@ -68,12 +68,10 @@ class VideoDB:
         #更新
         coll.update({"_id":video_item._id}, video_item.to_dict())
     
-    def insert_video_item(self):
+    def insert_video_item(self, video_item):
         '''
-        :测试用
+        :插入item文档（不指定_id）
         '''
-        video_item = VideoItem()
-        video_item.localUri = "215654"
         client = self.__get_client()
         #数据库
         db = client[self.dbname]
@@ -83,6 +81,17 @@ class VideoDB:
         #一定要去除id
         video_dict.pop("_id")
         coll.insert(video_dict)
+    
+    def delete_video_item(self, video_item):
+        '''
+        :删除（根据_id）
+        '''
+        client = self.__get_client()
+        #数据库
+        db = client[self.dbname]
+        #视频集合
+        coll = db['vs_video']
+        coll.delete({"_id":video_item._id})
         
 if __name__ == '__main__':
     db = VideoDB("localhost", 27017, "video_search")

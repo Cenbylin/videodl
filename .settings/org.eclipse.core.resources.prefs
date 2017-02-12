@@ -3,4 +3,5 @@ encoding//videodl/dbaccess.py=utf-8
 encoding//videodl/dlconfig.py=utf-8
 encoding//videodl/items/VideoItem.py=utf-8
 encoding//videodl/obtainer.py=utf-8
+encoding//videodl/utils.py=utf-8
 encoding//videodl/videodl.py=utf-8

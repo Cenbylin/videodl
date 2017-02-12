@@ -6,26 +6,26 @@ Created on 2017年2月10日
 @author: Cenbylin
 '''
 class VideoItem():
-    '''
+    """"
     :视频集合
     lessonNum 课时编号
+    tableNum 平台编号
     url 视频地址
-    localUri 视频本地路径
+    memoryPath 视频在本地的存储地址
     codingFormat 编码格式
     length 视频长度
     resolution 分辨率
-    playCount 播放次数
     time 录入时间
-    '''
-    def __init__(self, _id=None, lessonNum=None, url=None, localUri=None, codingFormat=None, length=None, resolution=None, playCount=None, time=None):
+    """
+    def __init__(self, _id=None, lessonNum=None, tableNum=None, url=None, memoryPath=None, codingFormat=None, length=None, resolution=None, time=None):
         self._id = _id
         self.lessonNum = lessonNum
+        self.tableNum = tableNum
         self.url = url
-        self.localUri = localUri
+        self.memoryPath = memoryPath
         self.codingFormat = codingFormat
         self.length = length
         self.resolution = resolution
-        self.playCount = playCount
         self.time = time
         
     def load_dict(self, video_dict):
@@ -34,13 +34,13 @@ class VideoItem():
         '''
         self._id = video_dict.get("_id", None)
         self.lessonNum = video_dict.get("lesson_num", None)
+        self.tableNum = video_dict.get("table_num", None)
         self.url = video_dict.get("url", None)
         self.codingFormat = video_dict.get("coding_format", None)
         self.length = video_dict.get("length", None)
         self.resolution = video_dict.get("resolution", None)
-        self.playCount = video_dict.get("playCount", None)
         self.time = video_dict.get("time", None)
-        self.localUri = video_dict.get("local_uri", None)
+        self.memoryPath = video_dict.get("memory_path", None)
         
     def to_dict(self):
         '''
