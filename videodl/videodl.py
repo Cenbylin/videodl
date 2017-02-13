@@ -3,6 +3,7 @@
 '''
 Created on 2017年2月10日
 @author: Cenbylin
+主程序
 '''
 import dlconfig as cfg
 import cv2
@@ -25,7 +26,7 @@ if __name__ == '__main__':
         '''
         for media_url in media_url_list:
             #下载视频
-            media_path, media_format = obtainer.download_and_save(media_url, [str(video_item.lessonNum)])
+            media_path, media_format = obtainer.download_and_save(media_url, [str(video_item.tableNum), str(video_item.lessonNum)])
             video_item.memoryPath = media_path
             video_item.codingFormat = media_format
             '''

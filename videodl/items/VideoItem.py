@@ -49,12 +49,12 @@ class VideoItem():
         video_dict = {}
         video_dict['_id'] = self._id
         video_dict['lesson_num'] = self.lessonNum
+        video_dict['table_num'] = self.tableNum
         video_dict['url'] = self.url
-        video_dict['local_uri'] = self.localUri
+        video_dict['memory_path'] = self.memoryPath
         video_dict['coding_format'] = self.codingFormat
         video_dict['length'] = self.length
         video_dict['resolution'] = self.resolution
-        video_dict['playCount'] = self.playCount
         video_dict['time'] = self.time
         return video_dict
         

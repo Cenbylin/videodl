@@ -46,7 +46,7 @@ class VideoDB:
         coll = db['vs_video']
         #查询
         obj = coll.find_one(
-            {"local_uri":{'$exists':True}}
+            {'$or':[{"memory_path":{'$exists':True}}, {"memory_path":None}, {"memory_path":""}]}
         )
         #orm操作
         if not obj:
@@ -91,10 +91,14 @@ class VideoDB:
         db = client[self.dbname]
         #视频集合
         coll = db['vs_video']
-        coll.delete({"_id":video_item._id})
+        coll.delete_one({"_id":video_item._id})
         
 if __name__ == '__main__':
     db = VideoDB("localhost", 27017, "video_search")
-    #db.insert_video_item()
-    print db.get_novideo_item().to_dict()
+    video_item = VideoItem()
+    video_item.lessonNum = "1"
+    video_item.tableNum = "imooc"
+    video_item.url = "3240"
+    db.insert_video_item(video_item)
+    #print db.get_novideo_item().to_dict()
     

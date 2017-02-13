@@ -11,10 +11,10 @@ Created on 2017年2月10日
 '''
 db_host = "localhost"
 db_port = 27017
-db_name = "videoinfo"
-db_authdb = "admin"
-db_username = "root"
-db_password = "037037037"
+db_name = "video_search"
+db_authdb = None
+db_username = None
+db_password = None
 
 '''
 :存储相关

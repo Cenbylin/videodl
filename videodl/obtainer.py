@@ -16,7 +16,7 @@ import dlconfig as cfg
 '''
 def get_sources(video_id):
     #根据id请求路径
-    ajax_url = u"http://www.imooc.com/course/ajaxmediainfo/?mid=%d&mode=flash";
+    ajax_url = u"http://www.imooc.com/course/ajaxmediainfo/?mid=%s&mode=flash";
     f = urllib.urlopen(ajax_url % video_id)
     json_str = f.read()
     #结果
@@ -44,7 +44,7 @@ def download_and_save(url, pathlist):
         os.makedirs(st_dir)
         
     #组合文件路径
-    local_path = os.path.join(dir, file_name)
+    local_path = os.path.join(st_dir, file_name)
     
     #开启下载
     urllib.urlretrieve(url, local_path)
