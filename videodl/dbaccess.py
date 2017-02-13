@@ -46,7 +46,7 @@ class VideoDB:
         coll = db['vs_video']
         #查询
         obj = coll.find_one(
-            {'$or':[{"memory_path":{'$exists':True}}, {"memory_path":None}, {"memory_path":""}]}
+            {'$or':[{"memory_path":{'$exists':False}}, {"memory_path":None}, {"memory_path":""}]}
         )
         #orm操作
         if not obj:
