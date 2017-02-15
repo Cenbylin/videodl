@@ -9,7 +9,7 @@ import urllib
 import json
 import os.path
 import uuid
-import dlconfig as cfg
+import dl_config as cfg
 
 '''
 :得到视频真实下载地址list

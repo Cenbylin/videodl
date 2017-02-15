@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
-encoding//videodl/dbaccess.py=utf-8
-encoding//videodl/dlconfig.py=utf-8
+encoding//videodl/db_access.py=utf-8
+encoding//videodl/dl_config.py=utf-8
+encoding//videodl/dl_exceptions.py=utf-8
 encoding//videodl/items/VideoItem.py=utf-8
 encoding//videodl/obtainer.py=utf-8
 encoding//videodl/utils.py=utf-8

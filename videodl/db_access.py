@@ -7,6 +7,7 @@ Created on 2017年2月10日
 '''
 from pymongo import MongoClient
 from items.VideoItem import VideoItem
+from bson.objectid import ObjectId
 class VideoDB:
     
     def __init__(self, host, port, dbname, authdb=None, username=None, password=None):
@@ -53,7 +54,6 @@ class VideoDB:
             return None
         video_item = VideoItem()
         video_item.load_dict(obj)
-        print obj
         return video_item
         
     def update_video_item(self, video_item):
@@ -66,7 +66,7 @@ class VideoDB:
         #视频集合
         coll = db['vs_video']
         #更新
-        coll.update({"_id":video_item._id}, video_item.to_dict())
+        coll.update({"_id":ObjectId(str(video_item._id))}, video_item.to_dict())
     
     def insert_video_item(self, video_item):
         '''
@@ -82,7 +82,7 @@ class VideoDB:
         video_dict.pop("_id")
         coll.insert(video_dict)
     
-    def delete_video_item(self, video_item):
+    def delete_video_item(self, _id):
         '''
         :删除（根据_id）
         '''
@@ -91,14 +91,16 @@ class VideoDB:
         db = client[self.dbname]
         #视频集合
         coll = db['vs_video']
-        coll.delete_one({"_id":video_item._id})
+        coll.remove({"_id":ObjectId(ObjectId(_id))})
         
 if __name__ == '__main__':
     db = VideoDB("localhost", 27017, "video_search")
     video_item = VideoItem()
-    video_item.lessonNum = "1"
-    video_item.tableNum = "imooc"
+    video_item.lesson_num = "1"
+    video_item.table_num = "imooc"
     video_item.url = "3240"
-    db.insert_video_item(video_item)
+    video_item._id = "58a3ef64c59bd31424777709"
+    db.delete_video_item(video_item)
+    #db.insert_video_item(video_item)
     #print db.get_novideo_item().to_dict()
     

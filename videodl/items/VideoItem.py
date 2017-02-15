@@ -17,13 +17,13 @@ class VideoItem():
     resolution 分辨率
     time 录入时间
     """
-    def __init__(self, _id=None, lessonNum=None, tableNum=None, url=None, memoryPath=None, codingFormat=None, length=None, resolution=None, time=None):
+    def __init__(self, _id=None, lesson_num=None, table_num=None, url=None, memory_path=None, coding_format=None, length=None, resolution=None, time=None):
         self._id = _id
-        self.lessonNum = lessonNum
-        self.tableNum = tableNum
+        self.lesson_num = lesson_num
+        self.table_num = table_num
         self.url = url
-        self.memoryPath = memoryPath
-        self.codingFormat = codingFormat
+        self.memory_path = memory_path
+        self.coding_format = coding_format
         self.length = length
         self.resolution = resolution
         self.time = time
@@ -33,29 +33,16 @@ class VideoItem():
         :传入字典进行orm
         '''
         self._id = video_dict.get("_id", None)
-        self.lessonNum = video_dict.get("lesson_num", None)
-        self.tableNum = video_dict.get("table_num", None)
+        self.lesson_num = video_dict.get("lesson_num", None)
+        self.table_num = video_dict.get("table_num", None)
         self.url = video_dict.get("url", None)
-        self.codingFormat = video_dict.get("coding_format", None)
+        self.coding_format = video_dict.get("coding_format", None)
         self.length = video_dict.get("length", None)
         self.resolution = video_dict.get("resolution", None)
         self.time = video_dict.get("time", None)
-        self.memoryPath = video_dict.get("memory_path", None)
+        self.memory_path = video_dict.get("memory_path", None)
         
     def to_dict(self):
-        '''
-        :实体变成dict
-        '''
-        video_dict = {}
-        video_dict['_id'] = self._id
-        video_dict['lesson_num'] = self.lessonNum
-        video_dict['table_num'] = self.tableNum
-        video_dict['url'] = self.url
-        video_dict['memory_path'] = self.memoryPath
-        video_dict['coding_format'] = self.codingFormat
-        video_dict['length'] = self.length
-        video_dict['resolution'] = self.resolution
-        video_dict['time'] = self.time
-        return video_dict
-        
+
+        return self.__dict__
         
