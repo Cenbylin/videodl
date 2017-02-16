@@ -12,6 +12,8 @@ import obtainer
 import time
 import logging
 from dl_exceptions import NoDataException
+
+history_list = []
 def dl_proccess(db):
     #获得待下载视频的videoitem
     video_item = db.get_novideo_item()
@@ -52,6 +54,7 @@ def dl_proccess(db):
         video_item.resolution = str(size)
         #入库
         db.insert_video_item(video_item)
+        history_list.append(video_item._id)
         logging.info("success and insert into db.")
     '''   
     :删除临时记录
@@ -91,6 +94,11 @@ if __name__ == '__main__':
         except IOError:
             logging.error("Get data failed for NetWork's problem, waiting for retry...")
             #网络原因，无法获得请求结果
+            '''
+            :删除已经完成的部分
+            '''
+            for objectId in history_list:
+                db.delete_video_item(objectId)
             time.sleep(2)
         finally:
             logging.info("=============================")
