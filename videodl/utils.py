@@ -5,7 +5,8 @@ Created on 2017年2月12日
 
 @author: Cenbylin
 '''
-import string, sys
+import string, sys,os
+import subprocess
 
 def istextfile(filename, blocksize = 512):
     return isText(open(filename).read(blocksize))
@@ -25,9 +26,11 @@ def isText(s):
     if float(len(t))/float(len(s)) > 0.30:
         return False
     return True
-
+def extract_proccess(dir_path, media_path):
+    #os.system("ffmpeg")
+    #subprocess.call([u"ffmpeg"], shell=True)
+    print subprocess.call(["ffmpeg", "-i", media_path, "-vn", "-ar", "18000", "-ac", "2", "-ab", "100k", "-f", "wav", dir_path + "\\audio.wav"])
 if __name__ == '__main__':
-    print istextfile(ur'D:\videos\1\2\2f9cdb00-ef80-11e6-978a-14dda90a667e.mp4')
-    print istextfile(ur'D:\videos\1\2\1.txt')
+    extract_proccess(ur'D:\\videos\\imooc\\1\\ed3c6d91-f509-11e6-a4bf-14dda90a667e\\', ur"D:\\videos\\imooc\\1\\ed3c6d91-f509-11e6-a4bf-14dda90a667e\\2f43f640-f50a-11e6-bff8-14dda90a667e.mp4")
     
     

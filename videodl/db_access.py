@@ -8,8 +8,8 @@ Created on 2017年2月10日
 from pymongo import MongoClient
 from items.VideoItem import VideoItem
 from bson.objectid import ObjectId
+import dl_config as cfg
 class VideoDB:
-    
     def __init__(self, host, port, dbname, authdb=None, username=None, password=None):
         self.host = host
         self.port = port
@@ -44,7 +44,7 @@ class VideoDB:
         #数据库
         db = client[self.dbname]
         #视频集合
-        coll = db['vs_video']
+        coll = db['video']
         #查询
         obj = coll.find_one(
             {'$or':[{"memory_path":{'$exists':False}}, {"memory_path":None}, {"memory_path":""}]}
@@ -64,7 +64,7 @@ class VideoDB:
         #数据库
         db = client[self.dbname]
         #视频集合
-        coll = db['vs_video']
+        coll = db['video']
         #更新
         coll.update({"_id":ObjectId(str(video_item._id))}, video_item.to_dict())
     
@@ -76,7 +76,7 @@ class VideoDB:
         #数据库
         db = client[self.dbname]
         #视频集合
-        coll = db['vs_video']
+        coll = db['video']
         video_dict = video_item.to_dict()
         #一定要去除id
         video_dict.pop("_id")
@@ -90,17 +90,12 @@ class VideoDB:
         #数据库
         db = client[self.dbname]
         #视频集合
-        coll = db['vs_video']
+        coll = db['video']
         coll.remove({"_id":ObjectId(ObjectId(_id))})
         
 if __name__ == '__main__':
-    db = VideoDB("localhost", 27017, "video_search")
-    video_item = VideoItem()
-    video_item.lesson_num = "1"
-    video_item.table_num = "imooc"
-    video_item.url = "3240"
-    video_item._id = "58a3ef64c59bd31424777709"
-    db.delete_video_item(video_item)
+    db = VideoDB(cfg.db_host, cfg.db_port, cfg.db_name, cfg.db_authdb, cfg.db_username, cfg.db_password)
+ 
     #db.insert_video_item(video_item)
-    #print db.get_novideo_item().to_dict()
+    print db.get_novideo_item().to_dict()
     

@@ -51,7 +51,7 @@ def download_and_save(url, pathlist):
     
     #判断是否下载成功
     
-    return local_path, suffix.split(".")[1]
+    return st_dir, file_name, suffix.split(".")[1]
     
 
 if __name__ == '__main__':

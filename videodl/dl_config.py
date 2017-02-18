@@ -9,12 +9,12 @@ Created on 2017年2月10日
 '''
 :数据库相关
 '''
-db_host = "localhost"
-db_port = 27017
-db_name = "video_search"
-db_authdb = None
-db_username = None
-db_password = None
+db_host = "120.76.190.105"
+db_port = 20000
+db_name = "test_edu_video"
+db_authdb = "admin"
+db_username = "readwrite"
+db_password = "wersdfxcv234"
 
 '''
 :存储相关
