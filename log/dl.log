@@ -1,19 +1,17 @@
-Sat, 18 Feb 2017 16:28:23 videodl.py[line:33] INFO =============================
-Sat, 18 Feb 2017 16:28:23 videodl.py[line:34] INFO Proccess item(58a6fffac125132ac46199bc).
-Sat, 18 Feb 2017 16:28:23 videodl.py[line:36] INFO video id is 2147.
-Sat, 18 Feb 2017 16:28:23 videodl.py[line:41] INFO got 3 media.
-Sat, 18 Feb 2017 16:28:23 videodl.py[line:47] INFO downloading...
-Sat, 18 Feb 2017 16:29:02 videodl.py[line:74] INFO success and insert into db.
-Sat, 18 Feb 2017 16:29:02 videodl.py[line:47] INFO downloading...
-Sat, 18 Feb 2017 16:29:57 videodl.py[line:74] INFO success and insert into db.
-Sat, 18 Feb 2017 16:29:57 videodl.py[line:47] INFO downloading...
-Sat, 18 Feb 2017 16:31:22 videodl.py[line:74] INFO success and insert into db.
-Sat, 18 Feb 2017 16:31:22 videodl.py[line:79] INFO delete the template item of db.
-Sat, 18 Feb 2017 16:31:27 videodl.py[line:125] INFO =============================
-Sat, 18 Feb 2017 16:31:27 videodl.py[line:33] INFO =============================
-Sat, 18 Feb 2017 16:31:27 videodl.py[line:34] INFO Proccess item(58a6fffac125132ac46199d9).
-Sat, 18 Feb 2017 16:31:27 videodl.py[line:36] INFO video id is 2147.
-Sat, 18 Feb 2017 16:31:28 videodl.py[line:41] INFO got 3 media.
-Sat, 18 Feb 2017 16:31:28 videodl.py[line:47] INFO downloading...
-Sat, 18 Feb 2017 16:31:58 videodl.py[line:74] INFO success and insert into db.
-Sat, 18 Feb 2017 16:31:58 videodl.py[line:47] INFO downloading...
+Thu, 02 Mar 2017 14:11:44 videodl.py[line:34] INFO =============================
+Thu, 02 Mar 2017 14:11:44 videodl.py[line:35] INFO Proccess item(58b7acd2c59bd32430f0ed7c).
+Thu, 02 Mar 2017 14:11:44 videodl.py[line:37] INFO video id is 6577.
+Thu, 02 Mar 2017 14:11:55 videodl.py[line:42] INFO got 3 media.
+Thu, 02 Mar 2017 14:11:55 videodl.py[line:48] INFO downloading...
+Thu, 02 Mar 2017 14:12:03 videodl.py[line:75] INFO success and insert into db.
+Thu, 02 Mar 2017 14:12:03 videodl.py[line:48] INFO downloading...
+Thu, 02 Mar 2017 14:12:10 videodl.py[line:75] INFO success and insert into db.
+Thu, 02 Mar 2017 14:12:10 videodl.py[line:48] INFO downloading...
+Thu, 02 Mar 2017 14:12:31 videodl.py[line:75] INFO success and insert into db.
+Thu, 02 Mar 2017 14:12:31 videodl.py[line:80] INFO delete the template item of db.
+Thu, 02 Mar 2017 14:12:33 videodl.py[line:128] INFO =============================
+Thu, 02 Mar 2017 14:12:33 videodl.py[line:111] ERROR No pre-data in database, waiting for retry...
+Thu, 02 Mar 2017 14:12:38 videodl.py[line:128] INFO =============================
+Thu, 02 Mar 2017 14:12:38 videodl.py[line:111] ERROR No pre-data in database, waiting for retry...
+Thu, 02 Mar 2017 14:12:43 videodl.py[line:128] INFO =============================
+Thu, 02 Mar 2017 14:12:43 videodl.py[line:111] ERROR No pre-data in database, waiting for retry...

@@ -20,8 +20,7 @@ history_id_list = []
 history_path_list = []
 def extract_proccess(dir_path, media_path):
     audio_path = os.path.join(dir_path, "audio.wav")
-    subprocess.call(["ffmpeg", "-i", media_path, "-vn", "-ar", "16000", "-ac", "2", "-ab", "100k", "-f", "wav", audio_path])
-
+    subprocess.call(["ffmpeg", "-i", media_path, "-vn", "-ar", "8000", "-ac", "1", "-ab", "100k", "-f", "wav", audio_path])
 def dl_proccess(db):
     history_dir = ''
     #获得待下载视频的videoitem
@@ -119,6 +118,8 @@ if __name__ == '__main__':
             for objectId in history_id_list:
                 db.delete_video_item(objectId)
             time.sleep(2)
+        except Exception,e:  
+            print Exception,":",e
         finally:
             history_id_list = []
             history_path_list = []
