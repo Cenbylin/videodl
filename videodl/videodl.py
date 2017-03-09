@@ -8,7 +8,7 @@ Created on 2017年2月10日
 import dl_config as cfg
 import cv2
 from db_access import VideoDB
-import obtainer
+import obtainer.imooc_obt as imooc_obt
 import subprocess
 import time
 import os.path
@@ -34,7 +34,7 @@ def dl_proccess(db):
     temp_id = video_item._id
     logging.info("video id is %s." % video_item.url)
     #拿到视频真实地址list
-    media_url_list = obtainer.get_sources(video_item.url)
+    media_url_list = imooc_obt.get_sources(video_item.url)
     #算得item目录名
     dir_uuid = uuid.uuid1()
     logging.info("got %d media." % len(media_url_list))
@@ -44,7 +44,7 @@ def dl_proccess(db):
     for media_url in media_url_list:
         #下载视频
         logging.info("downloading...")
-        dir_path, media_name, media_format = obtainer.download_and_save(media_url, [str(video_item.table_num), 
+        dir_path, media_name, media_format = imooc_obt.download_and_save(media_url, [str(video_item.table_num),
                                                                str(video_item.lesson_id), 
                                                                str(dir_uuid)])
         media_path = os.path.join(dir_path, media_name)
