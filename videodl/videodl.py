@@ -5,22 +5,22 @@ Created on 2017年2月10日
 @author: Cenbylin
 主程序
 '''
-import dl_config as cfg
-import cv2
-from db_access import VideoDB
-import obtainer.imooc_obt as imooc_obt
+import logging
+import os.path
 import subprocess
 import time
-import os.path
 import uuid
-import logging
+import cv2
+import dl_config as cfg
 from dl_exceptions import NoDataException
+from obtainers import imooc_obt
+from db_access import VideoDB
 
 history_id_list = []
 history_path_list = []
 def extract_proccess(dir_path, media_path):
     audio_path = os.path.join(dir_path, "audio.wav")
-    subprocess.call(["ffmpeg", "-i", media_path, "-vn", "-ar", "8000", "-ac", "1", "-ab", "100k", "-f", "wav", audio_path])
+    subprocess.call(["ffmpeg", "-i", media_path, "-vn", "-ar", "16000", "-ac", "1", "-ab", "100k", "-f", "wav", audio_path])
 def dl_proccess(db):
     history_dir = ''
     #获得待下载视频的videoitem
@@ -29,6 +29,7 @@ def dl_proccess(db):
     if not video_item:
         raise NoDataException()
     else:
+
         logging.info("=============================")
         logging.info("Proccess item(%s)." % str(video_item._id))
     temp_id = video_item._id
@@ -45,8 +46,8 @@ def dl_proccess(db):
         #下载视频
         logging.info("downloading...")
         dir_path, media_name, media_format = imooc_obt.download_and_save(media_url, [str(video_item.table_num),
-                                                               str(video_item.lesson_id), 
-                                                               str(dir_uuid)])
+                                                                                     str(video_item.lesson_id),
+                                                                                     str(dir_uuid)])
         media_path = os.path.join(dir_path, media_name)
         video_item.memory_path = media_path
         video_item.coding_format = media_format
@@ -114,7 +115,7 @@ if __name__ == '__main__':
             #网络原因，无法获得请求结果
             '''
             :删除已经完成的部分
-            '''
+           '''
             for objectId in history_id_list:
                 db.delete_video_item(objectId)
             time.sleep(2)

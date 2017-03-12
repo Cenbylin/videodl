@@ -5,10 +5,13 @@ Created on 2017年2月10日
 
 @author: Cenbylin
 '''
-from pymongo import MongoClient
-from items.VideoItem import VideoItem
 from bson.objectid import ObjectId
-import dl_config as cfg
+from pymongo import MongoClient
+
+from videodl.items.VideoItem import VideoItem
+from videodl.config import dl_config as cfg
+
+
 class VideoDB:
     def __init__(self, host, port, dbname, authdb=None, username=None, password=None):
         self.host = host

@@ -20,4 +20,10 @@ db_password = "wersdfxcv234"
 :存储相关
 '''
 st_path = ur"D:\videos"
-    
+
+'''
+:七牛
+'''
+access_key = ur""
+secret_key = ur""
+buckey = ur"vediosearch"
