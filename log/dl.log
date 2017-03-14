@@ -1,5 +1,15 @@
-Sun, 12 Mar 2017 01:07:41 videodl.py[line:34] INFO =============================
-Sun, 12 Mar 2017 01:07:41 videodl.py[line:35] INFO Proccess item(58bff85ec125133f0470d632).
-Sun, 12 Mar 2017 01:07:41 videodl.py[line:37] INFO video id is 3510.
-Sun, 12 Mar 2017 01:07:42 videodl.py[line:42] INFO got 3 media.
-Sun, 12 Mar 2017 01:07:42 videodl.py[line:48] INFO downloading...
+Tue, 14 Mar 2017 20:59:20 videodl.py[line:55] INFO =============================
+Tue, 14 Mar 2017 20:59:20 videodl.py[line:56] INFO Proccess item(58bff85ec125133f0470d632).
+Tue, 14 Mar 2017 20:59:20 videodl.py[line:61] INFO video id is 3510.
+Tue, 14 Mar 2017 20:59:20 videodl.py[line:62] INFO Begin downloading.
+Tue, 14 Mar 2017 20:59:30 imooc_obt.py[line:62] INFO got 3 media.
+Tue, 14 Mar 2017 20:59:30 imooc_obt.py[line:70] INFO downloading...0
+Tue, 14 Mar 2017 21:00:03 imooc_obt.py[line:75] INFO finish this
+Tue, 14 Mar 2017 21:00:03 imooc_obt.py[line:70] INFO downloading...1
+Tue, 14 Mar 2017 21:00:40 imooc_obt.py[line:75] INFO finish this
+Tue, 14 Mar 2017 21:00:40 imooc_obt.py[line:70] INFO downloading...2
+Tue, 14 Mar 2017 21:02:01 imooc_obt.py[line:75] INFO finish this
+Tue, 14 Mar 2017 21:02:01 videodl.py[line:66] INFO got 3 media.
+Tue, 14 Mar 2017 21:02:01 videodl.py[line:71] INFO analyze media and create item.
+Tue, 14 Mar 2017 21:02:01 videodl.py[line:85] INFO extract audio.
+Tue, 14 Mar 2017 21:02:02 audio_extractor.py[line:17] INFO extract successfully.

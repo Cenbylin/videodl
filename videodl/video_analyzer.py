@@ -19,7 +19,7 @@ def analyze_media(media_info):
     switcher = {
         'mp4':__analyze_mp4
     }
-    fun = switcher.get(key=media_info.media_format, default=__none_platform)
+    fun = switcher.get(media_info.media_format, __none_platform)
     return fun(media_info)
 '''
 MP4分析器

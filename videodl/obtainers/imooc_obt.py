@@ -29,7 +29,7 @@ def __get_sources(video_id):
 @param url: 地址
 @param pathlist: 相对路径层级（相对于配置中的根目录）
 '''
-def __download_and_save(url, st_path, pathlist):
+def __download_and_save(url, pathlist):
     '''
     :下载视频
     :返回路径和格式
@@ -39,7 +39,7 @@ def __download_and_save(url, st_path, pathlist):
     file_name = str(uuid.uuid1()) + suffix
     
     #计算目录并且级联创建
-    st_dir = os.path.join(st_path, os.path.sep.join(pathlist))
+    st_dir = os.path.sep.join(pathlist)
     if not os.path.exists(st_dir):
         os.makedirs(st_dir)
         
@@ -68,7 +68,7 @@ def get_media(key, path_list):
     for media_url in media_url_list:
         #下载视频
         logging.info("downloading...%d" % counter)
-        dir_path, media_name, media_format = __download_and_save(media_url, [path_list])
+        dir_path, media_name, media_format = __download_and_save(media_url, path_list)
         media_path = os.path.join(dir_path, media_name)
         #媒体信息对象
         media_infos.append(MediaInfo(media_path, dir_path, media_name, media_format))

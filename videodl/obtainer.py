@@ -16,9 +16,10 @@ def __none_platform(key, path_list):
 def get_media(platform_id, key, path_list):
     #接口字典
     switcher={
-        'imooc': imooc_obt.get_media
+        1: imooc_obt.get_media
+        #blablabla多个平台....
     }
     #匹配对应平台的获取媒体方法
-    fun = switcher.get(key=platform_id, default=__none_platform)
+    fun = switcher.get(platform_id, __none_platform)
     #返回调用结果
     return fun(key, path_list)

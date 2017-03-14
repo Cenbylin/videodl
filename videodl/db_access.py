@@ -8,8 +8,8 @@ Created on 2017年2月10日
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 
-from videodl.items.VideoItem import VideoItem
-from videodl.config import dl_config as cfg
+from items.VideoItem import VideoItem
+import dl_config as cfg
 
 
 class VideoDB:

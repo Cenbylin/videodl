@@ -24,6 +24,6 @@ st_path = ur"D:\videos"
 '''
 :七牛
 '''
-access_key = ur""
-secret_key = ur""
+access_key = ur"2hCizo1I0UNtRUMkr7Lztw18PO3cT48IjayfmDo9"
+secret_key = ur"a7qMw76FvqcgG8zEEHplzNxbr6uS9SnX6i4d1Ycq"
 buckey = ur"vediosearch"

@@ -7,80 +7,20 @@ Created on 2017年2月10日
 '''
 import logging
 import os.path
-import subprocess
+import traceback
 import time
-import uuid
-import cv2
+import copy
 import dl_config as cfg
 from dl_exceptions import NoDataException
-from obtainers import imooc_obt
 from db_access import VideoDB
+import  qiniu_cloud
+import obtainer
+import video_analyzer
+import audio_extractor
 
-history_id_list = []
-history_path_list = []
-def extract_proccess(dir_path, media_path):
-    audio_path = os.path.join(dir_path, "audio.wav")
-    subprocess.call(["ffmpeg", "-i", media_path, "-vn", "-ar", "16000", "-ac", "1", "-ab", "100k", "-f", "wav", audio_path])
-def dl_proccess(db):
-    history_dir = ''
-    #获得待下载视频的videoitem
-    video_item = db.get_novideo_item()
-    #无数据抛出异常
-    if not video_item:
-        raise NoDataException()
-    else:
-
-        logging.info("=============================")
-        logging.info("Proccess item(%s)." % str(video_item._id))
-    temp_id = video_item._id
-    logging.info("video id is %s." % video_item.url)
-    #拿到视频真实地址list
-    media_url_list = imooc_obt.get_sources(video_item.url)
-    #算得item目录名
-    dir_uuid = uuid.uuid1()
-    logging.info("got %d media." % len(media_url_list))
-    '''
-    :处理地址列表
-    '''
-    for media_url in media_url_list:
-        #下载视频
-        logging.info("downloading...")
-        dir_path, media_name, media_format = imooc_obt.download_and_save(media_url, [str(video_item.table_num),
-                                                                                     str(video_item.lesson_id),
-                                                                                     str(dir_uuid)])
-        media_path = os.path.join(dir_path, media_name)
-        video_item.memory_path = media_path
-        video_item.coding_format = media_format
-        #记录
-        history_path_list.append(media_path)
-        history_dir = dir_path
-        '''
-        :解析视频
-        '''
-        videoCapture = cv2.VideoCapture(media_path)
-        #获得码率及尺寸
-        fps =  videoCapture.get(cv2.CAP_PROP_FPS)
-        size = "%dx%d" % (int(videoCapture.get(cv2.CAP_PROP_FRAME_WIDTH)), 
-                int(videoCapture.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-        #获得视频长度
-        fps_num = videoCapture.get(cv2.CAP_PROP_FRAME_COUNT)
-        m, s = divmod(int(fps_num/fps), 60)
-        h, m = divmod(m, 60)
-        video_item.length = "%s:%s:%s" % (str(h), str(m), str(s));
-        video_item.resolution = str(size)
-        #入库
-        db.insert_video_item(video_item)
-        history_id_list.append(video_item._id)
-        logging.info("success and insert into db.")
-    '''   
-    :删除临时记录
-    '''
-    db.delete_video_item(temp_id)
-    logging.info("delete the template item of db.")
-    '''
-    :抽取音频
-    '''
-    extract_proccess(history_dir, history_path_list[-1])
+'''
+日志初始化
+'''
 def init_log():
     logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -105,22 +45,81 @@ if __name__ == '__main__':
     db = VideoDB(cfg.db_host, cfg.db_port, cfg.db_name, cfg.db_authdb, cfg.db_username, cfg.db_password)
     while True:
         try:
-            dl_proccess(db)
+            '''
+           获得任务
+            '''
+            video_item = db.get_novideo_item()
+            # 无数据抛出异常
+            if not video_item:
+                raise NoDataException()
+            logging.info("=============================")
+            logging.info("Proccess item(%s)." % str(video_item._id))
+
+            '''
+            下载媒体
+            '''
+            logging.info("video id is %s." % video_item.url)
+            logging.info("Begin downloading.")
+            # 算得item目录名
+            path_list = [cfg.st_path, str(video_item.table_num), str(video_item.lesson_id)]
+            media_infos = obtainer.get_media(video_item.table_num, video_item.url, path_list)
+            logging.info("got %d media." % len(media_infos))
+
+            '''
+            视频分析，包装item
+            '''
+            logging.info("analyze media and create item.")
+            items = []
+            for media_info in media_infos:
+                item = copy.copy(video_item)
+                #暂存绝对路径和相对目录（list）和名字
+                item.memory_path = [media_info.media_path, path_list, media_info.media_name]
+                #获得信息
+                item.coding_format = media_info.media_format
+                item.length, item.resolution = video_analyzer.analyze_media(media_info)
+                items.append(item)
+
+            '''
+            音频提取和分析
+            '''
+            logging.info("extract audio.")
+            audio_extractor.extract_proccess(os.path.sep.join(items[-1].memory_path[1]), items[-1].memory_path[0])
+
+            '''
+            云存储
+            '''
+            logging.info("success and insert into db.")
+            for item in items:
+                #最终存储路径
+                final_path = '%s/%s' % ('/'.join(item.memory_path[1]), item.memory_path[2])
+                qiniu_cloud.create_task(item.memory_path[0], final_path, True)
+                item.memory_path = final_path
+
+            '''
+            入库
+            '''
+            for item in items:
+                db.insert_video_item(item)
+            logging.info("success and insert into db.")
+            #删除原始记录
+            logging.info("delete the template item of db.")
+            db.delete_video_item(video_item._id)
+
         except NoDataException:
-            logging.error("No pre-data in database, waiting for retry...")
-            #没有待处理的数据，等待重新获得
-            time.sleep(5)
+                logging.error("No pre-data in database, waiting for retry...")
+                # 没有待处理的数据，等待重新获得
+                time.sleep(5)
         except IOError:
             logging.error("Get data failed for NetWork's problem, waiting for retry...")
-            #网络原因，无法获得请求结果
+            # 网络原因，无法获得请求结果
             '''
             :删除已经完成的部分
            '''
             for objectId in history_id_list:
                 db.delete_video_item(objectId)
             time.sleep(2)
-        except Exception,e:  
-            print Exception,":",e
+        except Exception,e:
+            print traceback.format_exc()
         finally:
             history_id_list = []
             history_path_list = []
