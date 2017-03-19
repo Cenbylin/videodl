@@ -10,22 +10,42 @@ import json
 import os.path
 import uuid
 import logging
+import requests
 from MediaInfo import MediaInfo
 
-def __get_sources(video_id):
+def GetMiddleStr(content,startStr,endStr):
+  startIndex = content.index(startStr)
+  if startIndex>=0:
+    startIndex += len(startStr)
+  endIndex = content.index(endStr, startIndex)
+  return content[startIndex:endIndex]
+
+def __get_sources(lessonId, courseId):
     """
     得到视频真实下载地址list
-    :param video_id:
+    :param lessonId:
+    :param courseId:
     :return:
     """
-    #根据id请求路径
-    ajax_url = u"http://www.imooc.com/course/ajaxmediainfo/?mid=%s&mode=flash";
-    f = urllib.urlopen(ajax_url % video_id)
-    json_str = f.read()
-    #结果
-    data = json.loads(json_str)
-    return data['data']['result']['mpath']
+    url = ur"http://study.163.com/dwr/call/plaincall/LessonLearnBean.getVideoLearnInfo.dwr"
 
+    querystring = {"1489804243011": ""}
+
+    payload = "%s%s%s%s%s" %  \
+              ("callCount=1&scriptSessionId=%24%7BscriptSessionId%7D190&httpSessionId=8b03de0a4a77487ab361192559d13c29&c0-scriptName=LessonLearnBean&c0-methodName=getVideoLearnInfo&c0-id=0&c0-param0=",
+               str(lessonId),
+               "&c0-param1=",
+               str(courseId),
+               "&batchId=1489804240868")
+    headers = {
+        'content-type': "application/x-www-form-urlencoded",
+        'cache-control': "no-cache",
+    }
+
+    response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
+    urls = response.text.split("\n")[4]
+    hdUrl = GetMiddleStr(urls, "mp4HdUrl=\"", "\";s1.")
+    return [hdUrl]
 
 def __download_and_save(url, pathlist):
     """

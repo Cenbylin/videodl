@@ -33,9 +33,18 @@ def init_log():
     formatter = logging.Formatter('%(name)-8s: %(levelname)-5s %(message)s')
     console.setFormatter(formatter)
     logging.getLogger('').addHandler(console)
-    
+
+def rollback(id_list):
+    """
+    异常回滚
+    :param id_list:
+    :return:
+    """
+    for objectId in id_list:
+        db.delete_video_item(objectId)
     
 if __name__ == '__main__':
+    history_id_list = []
     '''
     :不断执行
     '''
@@ -72,8 +81,8 @@ if __name__ == '__main__':
             items = []
             for media_info in media_infos:
                 item = copy.copy(video_item)
-                #暂存绝对路径和相对目录（list）和名字
-                item.memory_path = [media_info.media_path, path_list, media_info.media_name]
+                #暂存绝对路径、名字
+                item.memory_path = [media_info.media_path, media_info.media_name]
                 #获得信息
                 item.coding_format = media_info.media_format
                 item.length, item.resolution = video_analyzer.analyze_media(media_info)
@@ -83,28 +92,40 @@ if __name__ == '__main__':
             音频提取和分析
             '''
             logging.info("extract audio.")
-            audio_extractor.extract_proccess(os.path.sep.join(items[-1].memory_path[1]), items[-1].memory_path[0])
+            res_audio = audio_extractor.extract_proccess(os.path.sep.join(path_list), items[-1].memory_path[0])
 
             '''
             云存储
             '''
-            logging.info("success and insert into db.")
+            logging.info("start qiniu-cloud engine")
+            #1、存音频
+            audio_path = '%s/%s' % ('/'.join(path_list[1:]), "audio.wav")
+            qiniu_cloud.create_task(res_audio.media_path, audio_path, True)
+            logging.info("finish upload qiniu-cloud")
+            logging.info("remove dir")
+            try:
+                os.rmdir(os.path.sep.join(path_list))
+            except Exception,e:
+                logging.info("rmdir failed")
+
+            #2、存视频，同时更新音频存储字段
             for item in items:
                 #最终存储路径
-                final_path = '%s/%s' % ('/'.join(item.memory_path[1]), item.memory_path[2])
+                final_path = '%s/%s' % ('/'.join(path_list[1:]), item.memory_path[1])
                 qiniu_cloud.create_task(item.memory_path[0], final_path, True)
                 item.memory_path = final_path
-
+                item.audio_path = audio_path
             '''
             入库
             '''
             for item in items:
                 db.insert_video_item(item)
+                history_id_list.append(video_item._id)
             logging.info("success and insert into db.")
             #删除原始记录
             logging.info("delete the template item of db.")
             db.delete_video_item(video_item._id)
-
+            logging.info("ALL finish.")
         except NoDataException:
                 logging.error("No pre-data in database, waiting for retry...")
                 # 没有待处理的数据，等待重新获得
@@ -113,14 +134,15 @@ if __name__ == '__main__':
             logging.error("Get data failed for NetWork's problem, waiting for retry...")
             # 网络原因，无法获得请求结果
             '''
-            :删除已经完成的部分
+            :删除已经产生的数据
            '''
-            for objectId in history_id_list:
-                db.delete_video_item(objectId)
+            rollback(history_id_list)
             time.sleep(2)
         except Exception,e:
+            rollback(history_id_list)
             print traceback.format_exc()
         finally:
             history_id_list = []
-            history_path_list = []
             logging.info("=============================")
+
+

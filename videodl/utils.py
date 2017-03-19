@@ -11,6 +11,8 @@ import subprocess
 def istextfile(filename, blocksize = 512):
     return isText(open(filename).read(blocksize))
 
+
+
 def isText(s):
     text_characters = "".join(map(chr, range(32, 127)) + list("\n\r\t\b"))
     _null_trans = string.maketrans("", "")
