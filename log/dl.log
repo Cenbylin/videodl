@@ -1,46 +1,6 @@
-Thu, 16 Mar 2017 22:24:43 videodl.py[line:64] INFO =============================
-Thu, 16 Mar 2017 22:24:43 videodl.py[line:65] INFO Proccess item(58bff861c125133f0470d6b5).
-Thu, 16 Mar 2017 22:24:43 videodl.py[line:70] INFO video id is 2706.
-Thu, 16 Mar 2017 22:24:43 videodl.py[line:71] INFO Begin downloading.
-Thu, 16 Mar 2017 22:24:43 imooc_obt.py[line:62] INFO got 3 media.
-Thu, 16 Mar 2017 22:24:43 imooc_obt.py[line:71] INFO downloading...0
-Thu, 16 Mar 2017 22:26:10 imooc_obt.py[line:76] INFO finish this
-Thu, 16 Mar 2017 22:26:10 videodl.py[line:75] INFO got 1 media.
-Thu, 16 Mar 2017 22:26:10 videodl.py[line:80] INFO analyze media and create item.
-Thu, 16 Mar 2017 22:26:10 videodl.py[line:94] INFO extract audio.
-Thu, 16 Mar 2017 22:26:14 audio_extractor.py[line:20] INFO extract successfully.
-Thu, 16 Mar 2017 22:26:14 videodl.py[line:100] INFO start qiniu-cloud engine
-Thu, 16 Mar 2017 22:26:14 retry.py[line:191] DEBUG Converted retries value: 3 -> Retry(total=3, connect=None, read=None, redirect=None)
-Thu, 16 Mar 2017 22:26:14 connectionpool.py[line:212] DEBUG Starting new HTTP connection (1): up-z2.qiniu.com
-Thu, 16 Mar 2017 22:26:18 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
-Thu, 16 Mar 2017 22:26:24 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 339
-Thu, 16 Mar 2017 22:26:30 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
-Thu, 16 Mar 2017 22:26:37 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 339
-Thu, 16 Mar 2017 22:26:49 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
-Thu, 16 Mar 2017 22:26:54 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
-Thu, 16 Mar 2017 22:26:57 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/1341412 HTTP/1.1" 200 340
-Thu, 16 Mar 2017 22:26:57 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkfile/26507236/mimeType/YXBwbGljYXRpb24vb2N0ZXQtc3RyZWFt/key/MS81OGJmZjg1ZGMxMjUxMzNmMDQ3MGQ2MWMvYXVkaW8ud2F2/fname/YXVkaW8ud2F2 HTTP/1.1" 200 84
-Thu, 16 Mar 2017 22:26:57 videodl.py[line:104] INFO finish upload qiniu-cloud
-Thu, 16 Mar 2017 22:26:57 videodl.py[line:105] INFO remove dir
-Thu, 16 Mar 2017 22:26:57 videodl.py[line:109] INFO rmdir failed
-Thu, 16 Mar 2017 22:27:03 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
-Thu, 16 Mar 2017 22:27:09 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
-Thu, 16 Mar 2017 22:27:15 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
-Thu, 16 Mar 2017 22:27:21 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 339
-Thu, 16 Mar 2017 22:27:27 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
-Thu, 16 Mar 2017 22:27:33 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
-Thu, 16 Mar 2017 22:27:39 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 339
-Thu, 16 Mar 2017 22:27:45 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 339
-Thu, 16 Mar 2017 22:27:51 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 339
-Thu, 16 Mar 2017 22:27:56 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/3575258 HTTP/1.1" 200 340
-Thu, 16 Mar 2017 22:27:56 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkfile/41323994/mimeType/YXBwbGljYXRpb24vb2N0ZXQtc3RyZWFt/key/MS81OGJmZjg1ZGMxMjUxMzNmMDQ3MGQ2MWMvNGM1MmI5YjAtMGE1NC0xMWU3LThjNmQtMjhjMmRkMzkwYjA2Lm1wNA==/fname/NGM1MmI5YjAtMGE1NC0xMWU3LThjNmQtMjhjMmRkMzkwYjA2Lm1wNA== HTTP/1.1" 200 115
-Thu, 16 Mar 2017 22:27:56 videodl.py[line:124] INFO success and insert into db.
-Thu, 16 Mar 2017 22:27:56 videodl.py[line:126] INFO delete the template item of db.
-Thu, 16 Mar 2017 22:27:56 videodl.py[line:128] INFO ALL finish.
-Thu, 16 Mar 2017 22:27:56 videodl.py[line:146] INFO =============================
-Thu, 16 Mar 2017 22:27:56 videodl.py[line:64] INFO =============================
-Thu, 16 Mar 2017 22:27:56 videodl.py[line:65] INFO Proccess item(58bff862c125133f0470d6c0).
-Thu, 16 Mar 2017 22:27:56 videodl.py[line:70] INFO video id is 2860.
-Thu, 16 Mar 2017 22:27:56 videodl.py[line:71] INFO Begin downloading.
-Thu, 16 Mar 2017 22:27:56 imooc_obt.py[line:62] INFO got 3 media.
-Thu, 16 Mar 2017 22:27:56 imooc_obt.py[line:71] INFO downloading...0
+Sat, 25 Mar 2017 01:12:08 videodl.py[line:65] INFO =============================
+Sat, 25 Mar 2017 01:12:08 videodl.py[line:66] INFO Proccess item(58d55281162322c852186cba).
+Sat, 25 Mar 2017 01:12:08 videodl.py[line:71] INFO video id is 1695.
+Sat, 25 Mar 2017 01:12:08 videodl.py[line:72] INFO Begin downloading.
+Sat, 25 Mar 2017 01:12:08 imooc_obt.py[line:70] INFO got 3 media.
+Sat, 25 Mar 2017 01:12:08 imooc_obt.py[line:79] INFO downloading...0

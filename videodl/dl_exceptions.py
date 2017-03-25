@@ -9,5 +9,6 @@ Created on 2017年2月13日
 class NoDataException(Exception):
     def __init__(self, msg=None):
         self.msg = msg
+
     
 

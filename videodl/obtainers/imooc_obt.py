@@ -11,6 +11,7 @@ import os.path
 import uuid
 import logging
 from MediaInfo import MediaInfo
+from obt_exceptions import NotSupportedException
 
 def __get_sources(video_id):
     """
@@ -24,6 +25,8 @@ def __get_sources(video_id):
     json_str = f.read()
     #结果
     data = json.loads(json_str)
+    if not data['data']['result']['mpath']:
+        raise NotSupportedException
     return data['data']['result']['mpath']
 
 
