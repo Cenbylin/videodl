@@ -129,7 +129,7 @@ if __name__ == '__main__':
             '''
             for item in items:
                 db.insert_video_item(item)
-                history_id_list.append(video_item._id)
+                history_id_list.append(item._id)
             logging.info("success and insert into db.")
             #删除原始记录
             logging.info("delete the template item of db.")

@@ -58,6 +58,34 @@ class VideoDB:
         video_item = VideoItem()
         video_item.load_dict(obj)
         return video_item
+
+    def get_novideo_item_more(self, num):
+        '''
+        :拿到多个尚未有视频的VideoItem，不足则全返回
+        '''
+        res = []
+        client = self.__get_client()
+        #数据库
+        db = client[self.dbname]
+        #视频集合
+        coll = db['video']
+        #查询多个
+        objs = coll.find(
+            {'$or':[{"memory_path":{'$exists':False}}, {"memory_path":None}, {"memory_path":""}]}
+        )
+        for obj in objs:
+            # orm操作
+            if not obj:
+                return None
+            video_item = VideoItem()
+            video_item.load_dict(obj)
+            res.append(video_item)
+
+            # 取指定个数
+            num = num - 1
+            if num == 0:
+                break
+        return res
         
     def update_video_item(self, video_item):
         '''

@@ -5,6 +5,11 @@ Created on 2017年2月10日
 
 @author: Cenbylin
 '''
+"""
+:集群相关
+"""
+server_name = "127.0.0.1"
+server_port = 7037
 
 '''
 :数据库相关
