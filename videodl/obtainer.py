@@ -17,7 +17,7 @@ def get_media(platform_id, key, path_list):
     #接口字典
     switcher={
         1: imooc_obt.get_media,
-        163:wy163_obt.get_media
+        2: wy163_obt.get_media
         #blablabla多个平台....
     }
     #匹配对应平台的获取媒体方法

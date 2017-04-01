@@ -83,6 +83,8 @@ if __name__ == '__main__':
                 raise NotSupportedException
             logging.info("got %d media." % len(media_infos))
 
+            continue
+
             '''
             视频分析，包装item
             '''

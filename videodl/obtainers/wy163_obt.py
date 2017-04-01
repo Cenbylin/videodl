@@ -11,6 +11,7 @@ import os.path
 import uuid
 import logging
 import requests
+import time
 from MediaInfo import MediaInfo
 
 def GetMiddleStr(content,startStr,endStr):
@@ -20,29 +21,28 @@ def GetMiddleStr(content,startStr,endStr):
   endIndex = content.index(endStr, startIndex)
   return content[startIndex:endIndex]
 
-def __get_sources(lessonId, courseId):
+def __get_sources(lessonId_courseId):
     """
     得到视频真实下载地址list
     :param lessonId:
     :param courseId:
     :return:
     """
-    url = ur"http://study.163.com/dwr/call/plaincall/LessonLearnBean.getVideoLearnInfo.dwr"
-
-    querystring = {"1489804243011": ""}
-
-    payload = "%s%s%s%s%s" %  \
-              ("callCount=1&scriptSessionId=%24%7BscriptSessionId%7D190&httpSessionId=8b03de0a4a77487ab361192559d13c29&c0-scriptName=LessonLearnBean&c0-methodName=getVideoLearnInfo&c0-id=0&c0-param0=",
-               str(lessonId),
-               "&c0-param1=",
-               str(courseId),
-               "&batchId=1489804240868")
-    headers = {
-        'content-type': "application/x-www-form-urlencoded",
-        'cache-control': "no-cache",
-    }
-
-    response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
+    temparr = str(lessonId_courseId).split(",")
+    lessonId = temparr[0]
+    courseId = temparr[1]
+    # 创建session
+    s = requests.session()
+    s.get("http://study.163.com/course/courseLearn.htm?courseId=%s" % courseId)
+    sessionId = s.cookies["NTESSTUDYSI"]
+    othercookie = s.cookies["EDUWEBDEVICE"]
+    time_str = str(int(time.time() * 1000))
+    url = "http://study.163.com/dwr/call/plaincall/LessonLearnBean.getVideoLearnInfo.dwr"
+    querystring = {time_str: ""}
+    payload = "callCount=1&scriptSessionId=%24%7BscriptSessionId%7D190&httpSessionId=" \
+              + sessionId + "&c0-scriptName=LessonLearnBean&c0-methodName=getVideoLearnInfo&c0-id=0" \
+              + "&c0-param0=string%3A" + courseId + "&c0-param1=string%3A" + lessonId + "&batchId=" + time_str
+    response = s.request("POST", url, data=payload, params=querystring)
     urls = response.text.split("\n")[4]
     hdUrl = GetMiddleStr(urls, "mp4HdUrl=\"", "\";s1.")
     return [hdUrl]
@@ -92,6 +92,7 @@ def get_media(key, path_list):
     media_infos = []
     #取最后一个
     media_url = media_url_list[-1]
+    print "url:",media_url
     #下载视频
     logging.info("downloading...%d" % counter)
     dir_path, media_name, media_format = __download_and_save(media_url, path_list)
@@ -100,3 +101,31 @@ def get_media(key, path_list):
     media_infos.append(MediaInfo(media_path, dir_path, media_name, media_format))
     logging.info("finish this")
     return media_infos
+if __name__ == '__main__':
+    lessonId = "1003687003"
+    courseId = "1004219036"
+    # 创建session
+    s = requests.session()
+    s.get("http://study.163.com/course/courseLearn.htm?courseId=%s" % courseId)
+    sessionId = s.cookies["NTESSTUDYSI"]
+    othercookie = s.cookies["EDUWEBDEVICE"]
+    time_str = str(int(time.time()*1000))
+    url = "http://study.163.com/dwr/call/plaincall/LessonLearnBean.getVideoLearnInfo.dwr"
+    querystring = {time_str: ""}
+    payload = "callCount=1&scriptSessionId=%24%7BscriptSessionId%7D190&httpSessionId="\
+              + sessionId + "&c0-scriptName=LessonLearnBean&c0-methodName=getVideoLearnInfo&c0-id=0"\
+              +"&c0-param0=string%3A"+courseId+"&c0-param1=string%3A"+lessonId+"&batchId="+time_str
+    response = s.request("POST", url, data=payload, params=querystring)
+    print response.text
+
+
+
+
+    '''
+        c = requests.cookies.RequestsCookieJar()
+        c.set('__utma', '129633230.35777634.1491030902.1491030902.1491030902.1', path='/', domain='.study.163.com')
+        c.set('__utmb', "129633230.2.9.1491030903407", path='/', domain='.study.163.com')
+        c.set('__utmc', "129633230", path='/', domain='.study.163.com')
+        c.set('__utmz', "129633230.1491030902.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)", path='/', domain='.study.163.com')
+        s.cookies.update(c)
+        '''

@@ -16,7 +16,7 @@ server_port = 7037
 '''
 db_host = "120.76.190.105"
 db_port = 20000
-db_name = "test_edu_video"
+db_name = "wanyi_video"
 db_authdb = "admin"
 db_username = "readwrite"
 db_password = "wersdfxcv234"

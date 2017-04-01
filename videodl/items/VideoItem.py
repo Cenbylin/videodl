@@ -17,7 +17,7 @@ class VideoItem():
     resolution 分辨率
     time 录入时间
     """
-    def __init__(self, _id=None, lesson_id=None, table_num=None, url=None, memory_path=None, coding_format=None, length=None, resolution=None, time=None):
+    def __init__(self, _id=None, lesson_id=None, table_num=None, url=None, memory_path=None, coding_format=None, length=None, resolution=None, datetime=None):
         self._id = _id
         self.lesson_id = lesson_id
         self.table_num = table_num
@@ -26,7 +26,7 @@ class VideoItem():
         self.coding_format = coding_format
         self.length = length
         self.resolution = resolution
-        self.time = time
+        self.datetime = datetime
         
     def load_dict(self, video_dict):
         '''
@@ -39,7 +39,7 @@ class VideoItem():
         self.coding_format = video_dict.get("coding_format", None)
         self.length = video_dict.get("length", None)
         self.resolution = video_dict.get("resolution", None)
-        self.time = video_dict.get("time", None)
+        self.datetime = video_dict.get("datetime", None)
         self.memory_path = video_dict.get("memory_path", None)
         
     def to_dict(self):
