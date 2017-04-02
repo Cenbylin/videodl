@@ -17,8 +17,9 @@ class VideoItem():
     resolution 分辨率
     time 录入时间
     """
-    def __init__(self, _id=None, lesson_id=None, table_num=None, url=None, memory_path=None, coding_format=None, length=None, resolution=None, datetime=None):
+    def __init__(self, _id=None, course_id=None, lesson_id=None, table_num=None, url=None, memory_path=None, coding_format=None, length=None, resolution=None, datetime=None):
         self._id = _id
+        self.course_id = course_id
         self.lesson_id = lesson_id
         self.table_num = table_num
         self.url = url
@@ -33,6 +34,7 @@ class VideoItem():
         :传入字典进行orm
         '''
         self._id = video_dict.get("_id", None)
+        self.course_id = video_dict.get("course_id", None)
         self.lesson_id = video_dict.get("lesson_id", None)
         self.table_num = video_dict.get("table_num", None)
         self.url = video_dict.get("url", None)
