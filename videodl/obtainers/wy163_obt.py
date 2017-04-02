@@ -119,13 +119,3 @@ if __name__ == '__main__':
     print response.text
 
 
-
-
-    '''
-        c = requests.cookies.RequestsCookieJar()
-        c.set('__utma', '129633230.35777634.1491030902.1491030902.1491030902.1', path='/', domain='.study.163.com')
-        c.set('__utmb', "129633230.2.9.1491030903407", path='/', domain='.study.163.com')
-        c.set('__utmc', "129633230", path='/', domain='.study.163.com')
-        c.set('__utmz', "129633230.1491030902.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)", path='/', domain='.study.163.com')
-        s.cookies.update(c)
-        '''

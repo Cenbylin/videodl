@@ -1,23 +1,25 @@
-Sun, 02 Apr 2017 02:01:13 videodl.py[line:65] INFO =============================
-Sun, 02 Apr 2017 02:01:13 videodl.py[line:66] INFO Proccess item(58ddd92409f9c22840ccec3a).
-Sun, 02 Apr 2017 02:01:13 videodl.py[line:71] INFO video id is 1003687003,1004219036.
-Sun, 02 Apr 2017 02:01:13 videodl.py[line:72] INFO Begin downloading.
-Sun, 02 Apr 2017 02:01:13 connectionpool.py[line:212] DEBUG Starting new HTTP connection (1): study.163.com
-Sun, 02 Apr 2017 02:01:13 connectionpool.py[line:400] DEBUG http://study.163.com:80 "GET /course/courseLearn.htm?courseId=1004219036 HTTP/1.1" 302 0
-Sun, 02 Apr 2017 02:01:13 connectionpool.py[line:400] DEBUG http://study.163.com:80 "GET /systemError.htm HTTP/1.1" 200 None
-Sun, 02 Apr 2017 02:01:13 connectionpool.py[line:400] DEBUG http://study.163.com:80 "POST /dwr/call/plaincall/LessonLearnBean.getVideoLearnInfo.dwr?1491069673619= HTTP/1.1" 200 None
-Sun, 02 Apr 2017 02:01:13 wy163_obt.py[line:90] INFO got 1 media.
-Sun, 02 Apr 2017 02:01:13 wy163_obt.py[line:100] INFO downloading...0
-Sun, 02 Apr 2017 02:03:02 wy163_obt.py[line:105] INFO finish this
-Sun, 02 Apr 2017 02:03:02 videodl.py[line:84] INFO got 1 media.
-Sun, 02 Apr 2017 02:03:02 videodl.py[line:161] INFO =============================
-Sun, 02 Apr 2017 02:03:02 videodl.py[line:65] INFO =============================
-Sun, 02 Apr 2017 02:03:02 videodl.py[line:66] INFO Proccess item(58ddd92409f9c22840ccec3a).
-Sun, 02 Apr 2017 02:03:02 videodl.py[line:71] INFO video id is 1003687003,1004219036.
-Sun, 02 Apr 2017 02:03:02 videodl.py[line:72] INFO Begin downloading.
-Sun, 02 Apr 2017 02:03:02 connectionpool.py[line:212] DEBUG Starting new HTTP connection (1): study.163.com
-Sun, 02 Apr 2017 02:03:02 connectionpool.py[line:400] DEBUG http://study.163.com:80 "GET /course/courseLearn.htm?courseId=1004219036 HTTP/1.1" 302 0
-Sun, 02 Apr 2017 02:03:02 connectionpool.py[line:400] DEBUG http://study.163.com:80 "GET /systemError.htm HTTP/1.1" 200 None
-Sun, 02 Apr 2017 02:03:02 connectionpool.py[line:400] DEBUG http://study.163.com:80 "POST /dwr/call/plaincall/LessonLearnBean.getVideoLearnInfo.dwr?1491069782652= HTTP/1.1" 200 None
-Sun, 02 Apr 2017 02:03:02 wy163_obt.py[line:90] INFO got 1 media.
-Sun, 02 Apr 2017 02:03:02 wy163_obt.py[line:100] INFO downloading...0
+Sun, 02 Apr 2017 11:27:39 videodl.py[line:65] INFO =============================
+Sun, 02 Apr 2017 11:27:39 videodl.py[line:66] INFO Proccess item(58ddd92409f9c22840ccec3a).
+Sun, 02 Apr 2017 11:27:39 videodl.py[line:71] INFO video id is 1003687003,1004219036.
+Sun, 02 Apr 2017 11:27:39 videodl.py[line:72] INFO Begin downloading.
+Sun, 02 Apr 2017 11:27:39 connectionpool.py[line:212] DEBUG Starting new HTTP connection (1): study.163.com
+Sun, 02 Apr 2017 11:27:39 connectionpool.py[line:400] DEBUG http://study.163.com:80 "GET /course/courseLearn.htm?courseId=1004219036 HTTP/1.1" 302 0
+Sun, 02 Apr 2017 11:27:40 connectionpool.py[line:400] DEBUG http://study.163.com:80 "GET /systemError.htm HTTP/1.1" 200 None
+Sun, 02 Apr 2017 11:27:40 connectionpool.py[line:400] DEBUG http://study.163.com:80 "POST /dwr/call/plaincall/LessonLearnBean.getVideoLearnInfo.dwr?1491103660093= HTTP/1.1" 200 None
+Sun, 02 Apr 2017 11:27:40 wy163_obt.py[line:87] INFO got 1 media.
+Sun, 02 Apr 2017 11:27:40 wy163_obt.py[line:97] INFO downloading...0
+Sun, 02 Apr 2017 11:29:08 wy163_obt.py[line:102] INFO finish this
+Sun, 02 Apr 2017 11:29:08 videodl.py[line:84] INFO got 1 media.
+Sun, 02 Apr 2017 11:29:08 videodl.py[line:89] INFO analyze media and create item.
+Sun, 02 Apr 2017 11:29:08 videodl.py[line:103] INFO extract audio.
+Sun, 02 Apr 2017 11:29:16 audio_extractor.py[line:20] INFO extract successfully.
+Sun, 02 Apr 2017 11:29:16 videodl.py[line:109] INFO start qiniu-cloud engine
+Sun, 02 Apr 2017 11:29:16 connectionpool.py[line:809] DEBUG Starting new HTTPS connection (1): uc.qbox.me
+Sun, 02 Apr 2017 11:29:17 connectionpool.py[line:400] DEBUG https://uc.qbox.me:443 "GET /v1/query?ak=2hCizo1I0UNtRUMkr7Lztw18PO3cT48IjayfmDo9&bucket=vediosearch HTTP/1.1" 200 262
+Sun, 02 Apr 2017 11:29:17 retry.py[line:191] DEBUG Converted retries value: 3 -> Retry(total=3, connect=None, read=None, redirect=None)
+Sun, 02 Apr 2017 11:29:17 connectionpool.py[line:212] DEBUG Starting new HTTP connection (1): up-z2.qiniu.com
+Sun, 02 Apr 2017 11:29:23 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
+Sun, 02 Apr 2017 11:29:31 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
+Sun, 02 Apr 2017 11:29:35 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 339
+Sun, 02 Apr 2017 11:29:40 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
+Sun, 02 Apr 2017 11:29:46 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340

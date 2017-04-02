@@ -16,7 +16,7 @@ server_port = 7037
 '''
 db_host = "120.76.190.105"
 db_port = 20000
-db_name = "wanyi_video"
+db_name = "test_edu_video"
 db_authdb = "admin"
 db_username = "readwrite"
 db_password = "wersdfxcv234"
@@ -31,4 +31,5 @@ st_path = ur"D:\videos"
 '''
 access_key = ur"2hCizo1I0UNtRUMkr7Lztw18PO3cT48IjayfmDo9"
 secret_key = ur"a7qMw76FvqcgG8zEEHplzNxbr6uS9SnX6i4d1Ycq"
-buckey = ur"vediosearch"
+#buckey = ur"vediosearch"
+buckey = ur"test-vs"
