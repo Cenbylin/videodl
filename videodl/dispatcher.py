@@ -5,27 +5,20 @@
 @author: Cenbylin
 '''
 import dl_config as cfg
-import socket
 import json
 import time
-import thread
-from threading import Timer
-from items import VideoItem
+import pika
+import uuid
 
 """
 注册服务
 """
-import pika
-import uuid
-
-
 # 在一个类中封装了connection建立、queue声明、consumer配置、回调函数等
 class CommonRpcClient(object):
     def __init__(self):
         # 建立到RabbitMQ Server的connection
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(
             host='localhost'))
-
         self.channel = self.connection.channel()
 
         # 声明一个临时的回调队列
@@ -38,8 +31,6 @@ class CommonRpcClient(object):
         # 不对消息进行确认
         self.channel.basic_consume(self.on_response, no_ack=True,
                                    queue=self.callback_queue)
-
-        # 定义回调函数
 
     # 比较类的corr_id属性与props中corr_id属性的值
     # 若相同则response属性为接收到的message
@@ -89,44 +80,72 @@ class CommonRpcClient(object):
             self.connection.process_data_events()
 
         return str(self.response)
-
-
 # 生成类的实例
 commonRpcClient = CommonRpcClient()
-# 获取信息
-commonRpcClient.get_config()
+def init_config():
+        received = commonRpcClient.get_config()
+        cfg_dict = json.loads(received)
+        cfg.access_key = cfg_dict["access_key"]
+        cfg.secret_key = cfg_dict["secret_key"]
+        cfg.buckey = cfg_dict["buckey"]
+        print "【测试】取得配置", cfg_dict["buckey"]
 
+# 获取信息
+init_config()
+# 创建任务连接
+job_connection = pika.BlockingConnection(pika.ConnectionParameters(
+    host='localhost'))
+job_channel = job_connection.channel()
+job_channel.queue_declare(queue='dl_task', auto_delete=True)
 def get_job():
     """
     获得任务item
     :return: item
     """
-
-    item_dict = json.loads(received)
+    # 远程获得
+    received = None
+    global job_channel
+    try:
+        received = job_channel.basic_get(queue="dl_task")
+    except Exception:
+        pass
+    # 处理获得为空的情况
+    if (not received):
+        #重连
+        job_connection = pika.BlockingConnection(pika.ConnectionParameters(
+            host='localhost'))
+        job_channel = job_connection.channel()
+        job_channel.queue_declare(queue='dl_task', auto_delete=True)
+        return None
+    elif not received[1]:
+        return None
+    received_body = received[2]
+    global d_tag
+    d_tag = received[0].delivery_tag
+    print "【测试】获得任务", received_body
+    return received_body
+    """
+    item_dict = json.loads(received_body)
     job_item = VideoItem()
     job_item.load_dict(item_dict)
     return job_item
-def submit_result(item_list):
+    """
+
+def submit_result(old_item_id, item_list):
     """
     提交任务
     :param item_list: 
     :return: 
     """
-    json_str = json.dumps(item_list)
-    _sock_lock.acquire()
-    sock.sendall("s%s" % json_str)
-    received = str(sock.recv(1024)).strip()
-    _sock_lock.release()
-    if received=="success":
-        return
-    else:
-        raise
+    res_dict = {"old_item_id":old_item_id, "item_list":item_list}
+    json_str = json.dumps(res_dict)
+    commonRpcClient.submit_result(json_str)
+    job_channel.basic_ack(delivery_tag = d_tag)
 
 if __name__ == '__main__':
-    get_config()
-    time.sleep(1)
-    heart_beat()
-    time.sleep(1)
-    heart_beat()
-    time.sleep(1)
-    heart_beat()
+    while True:
+        print "单次开始"
+        if get_job():
+            submit_result("1231", ["1", "2"])
+        time.sleep(2)
+
