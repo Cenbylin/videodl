@@ -143,8 +143,11 @@ class VideoDB:
         coll.remove({"_id":ObjectId(ObjectId(_id))})
         
 if __name__ == '__main__':
+
     db = VideoDB(cfg.db_host, cfg.db_port, cfg.db_name, cfg.db_authdb, cfg.db_username, cfg.db_password)
- 
+    import json
+    from utils import ItemEncoder
     #db.insert_video_item(video_item)
-    print db.get_novideo_item().to_dict()
+    print json.dumps(db.get_item_byurl("3225"), cls=ItemEncoder)
+    print json.dumps({"123":1})
     

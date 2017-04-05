@@ -10,6 +10,7 @@ import time
 import pika
 import uuid
 from items.VideoItem import VideoItem
+from utils import ItemEncoder
 
 """
 注册服务
@@ -122,7 +123,9 @@ def get_job():
     received_body = received[2]
     global d_tag
     d_tag = received[0].delivery_tag
-    item_dict = json.loads(received_body)
+    data = received_body.strip().strip('"')
+    print data
+    item_dict = json.loads(data)
     job_item = VideoItem()
     job_item.load_dict(item_dict)
     return job_item
@@ -133,15 +136,20 @@ def submit_result(old_item_id, item_list):
     :param item_list: 
     :return: 
     """
-    res_dict = {"old_item_id":old_item_id, "item_list":item_list}
-    json_str = json.dumps(res_dict)
+    res_dict = {"old_item_id":str(old_item_id), "item_list":item_list}
+    json_str = json.dumps(res_dict, cls=ItemEncoder)
     commonRpcClient.submit_result(json_str)
     job_channel.basic_ack(delivery_tag = d_tag)
 
 if __name__ == '__main__':
     while True:
         print "单次开始"
-        if get_job():
-            submit_result("1231", ["1", "2"])
-        time.sleep(2)
+        while True:
+            item = get_job()
+            if item:
+                item.memory_path = "test"
+                time.sleep(5)
+                print "获得", item.to_dict()
+                submit_result(item._id, [item])
+            time.sleep(2)
 

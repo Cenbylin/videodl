@@ -5,6 +5,8 @@ Created on 2017年2月10日
 
 @author: Cenbylin
 '''
+from bson.objectid import ObjectId
+import copy
 class VideoItem():
     """"
     :视频集合
@@ -34,9 +36,9 @@ class VideoItem():
         '''
         :传入字典进行orm
         '''
-        self._id = video_dict.get("_id", None)
-        self.lesson_id = video_dict.get("lesson_id", None)
-        self.course_id = video_dict.get("course_id", None)
+        self._id = ObjectId(str(video_dict.get("_id", None)))
+        self.lesson_id = ObjectId(str(video_dict.get("lesson_id", None)))
+        self.course_id = ObjectId(str(video_dict.get("course_id", None)))
         self.table_num = video_dict.get("table_num", None)
         self.url = video_dict.get("url", None)
         self.coding_format = video_dict.get("coding_format", None)
@@ -47,6 +49,11 @@ class VideoItem():
         self.audio_path = video_dict.get("audio_path", None)
 
     def to_dict(self):
+        return copy.copy(self.__dict__)
+    def to_json_dict(self):
+        src_dict = self.to_dict()
+        src_dict["_id"] = str(src_dict["_id"])
+        src_dict["lesson_id"] = str(src_dict["lesson_id"])
+        src_dict["course_id"] = str(src_dict["course_id"])
+        return src_dict
 
-        return self.__dict__
-        

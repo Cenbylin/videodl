@@ -5,7 +5,7 @@
 @author: Cenbylin
 '''
 from db_access import VideoDB
-from items import VideoItem
+from items.VideoItem import VideoItem
 import dl_config as cfg
 import logging
 import json
@@ -13,6 +13,7 @@ import pika
 from multiprocessing import Process
 import os
 import time
+from utils import ItemEncoder
 
 # 连接获得数据库实例
 db = VideoDB(cfg.db_host, cfg.db_port, cfg.db_name, cfg.db_authdb, cfg.db_username, cfg.db_password)
@@ -151,17 +152,19 @@ def super_proc():
     channel.queue_declare(queue='dl_task', auto_delete=True)
     #监控任务队列
     while True:
-        if __get_queue_count("dl_task")<8:
-            logging.info("[J]queue has no enough jobs(<8), now loading...")
-            item_list = db.get_novideo_item_more(32)
-            for item in item_list:
-                content = json.dumps(item.__dict__())
-                channel.basic_publish(exchange='',
-                                      routing_key='dl_task',
-                                      body=content)
-            logging.info("[J]have loadded.")
-        time.sleep(5)
-
+        try:
+            if __get_queue_count("dl_task")<8:
+                logging.info("[J]queue has no enough jobs(<8), now loading...")
+                item_list = db.get_novideo_item_more(32)
+                for item in item_list:
+                    content = json.dumps(item, cls=ItemEncoder)
+                    channel.basic_publish(exchange='',
+                                          routing_key='dl_task',
+                                          body=content)
+                logging.info("[J]have loadded.")
+            time.sleep(5)
+        except pika.exceptions.ConnectionClosed:
+            close_callback()
 if __name__ == '__main__':
     init_log()
     """
