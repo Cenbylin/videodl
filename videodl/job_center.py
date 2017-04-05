@@ -6,7 +6,6 @@
 '''
 from db_access import VideoDB
 from items import VideoItem
-from dl_exceptions import NoDataException
 import dl_config as cfg
 import logging
 import json
@@ -41,7 +40,6 @@ def get_config():
                 "secret_key": cfg.secret_key,
                 "buckey": cfg.buckey}
     content = json.dumps(cfg_dict)
-    print "【测试】尝试取得cfg"
     return content
 
 def submit_result(old_item_id, dict_list):
@@ -49,8 +47,6 @@ def submit_result(old_item_id, dict_list):
     提交结果
     """
     item_list = []
-    print "【测试】提交任务", dict_list
-    return
     for item_dict in dict_list:
         submit_item = VideoItem()
         submit_item.load_dict(item_dict)
@@ -116,7 +112,6 @@ def __get_queue_count(queue_name):
         if line.startswith(queue_name):
             line = line.strip().encode("utf-8")
             start = line.find(u"\t")
-            print "【测试】所剩", line[start+1:]
             return int(line[start+1:])
 
 #子进程
@@ -158,11 +153,9 @@ def super_proc():
     while True:
         if __get_queue_count("dl_task")<8:
             logging.info("[J]queue has no enough jobs(<8), now loading...")
-            item_list = ["", "", "", "", "","", "", "", "", ""]
-            #item_list = db.get_novideo_item_more(32)
+            item_list = db.get_novideo_item_more(32)
             for item in item_list:
-                content = "测试任务"
-                #content = json.dumps(item.__dict__())
+                content = json.dumps(item.__dict__())
                 channel.basic_publish(exchange='',
                                       routing_key='dl_task',
                                       body=content)

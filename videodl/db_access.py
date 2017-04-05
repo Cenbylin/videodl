@@ -58,7 +58,25 @@ class VideoDB:
         video_item = VideoItem()
         video_item.load_dict(obj)
         return video_item
-
+    def get_item_byurl(self, url):
+        '''
+        :拿到指定url的Item
+        '''
+        client = self.__get_client()
+        #数据库
+        db = client[self.dbname]
+        #视频集合
+        coll = db['video']
+        #查询
+        obj = coll.find_one(
+            {"url":url}
+        )
+        #orm操作
+        if not obj:
+            return None
+        video_item = VideoItem()
+        video_item.load_dict(obj)
+        return video_item
     def get_novideo_item_more(self, num):
         '''
         :拿到多个尚未有视频的VideoItem，不足则全返回

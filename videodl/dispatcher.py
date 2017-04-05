@@ -9,6 +9,7 @@ import json
 import time
 import pika
 import uuid
+from items.VideoItem import VideoItem
 
 """
 注册服务
@@ -88,7 +89,6 @@ def init_config():
         cfg.access_key = cfg_dict["access_key"]
         cfg.secret_key = cfg_dict["secret_key"]
         cfg.buckey = cfg_dict["buckey"]
-        print "【测试】取得配置", cfg_dict["buckey"]
 
 # 获取信息
 init_config()
@@ -110,7 +110,7 @@ def get_job():
     except Exception:
         pass
     # 处理获得为空的情况
-    if (not received):
+    if not received:
         #重连
         job_connection = pika.BlockingConnection(pika.ConnectionParameters(
             host='localhost'))
@@ -122,14 +122,10 @@ def get_job():
     received_body = received[2]
     global d_tag
     d_tag = received[0].delivery_tag
-    print "【测试】获得任务", received_body
-    return received_body
-    """
     item_dict = json.loads(received_body)
     job_item = VideoItem()
     job_item.load_dict(item_dict)
     return job_item
-    """
 
 def submit_result(old_item_id, item_list):
     """
