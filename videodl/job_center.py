@@ -135,21 +135,27 @@ def sub_proc():
     logging.info("[R]waitting for calling.")
     # 开始接收并处理消息
     channel.start_consuming()
+class JobConn():
+    def init_conn(self):
+        # 建立到达RabbitMQ Server的connection
+        self.credentials = pika.PlainCredentials('admin', '12345')
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(
+            '127.0.0.1', 5672, '/', self.credentials))
+        self.channel = self.connection.channel()
+        # 任务队列的queue
+        self.channel.queue_declare(queue='dl_task', auto_delete=True)
+        self.channel.add_on_cancel_callback(self.close_callback)
+    def close_callback(self):
+            """断开重连"""
+            logging.info("[J]connection blocked.now reconnect")
+            self.init_conn()
+    def __init__(self):
+        self.init_conn()
+
 def super_proc():
     logging.info("[0]job-engine start.")
-    # 建立到达RabbitMQ Server的connection
-    credentials = pika.PlainCredentials('admin', '12345')
-    connection = pika.BlockingConnection(pika.ConnectionParameters(
-        '127.0.0.1', 5672, '/', credentials))
-    channel = connection.channel()
-    def close_callback():
-        """断开重连"""
-        logging.info("[J]connection blocked.now reconnect")
-        global channel
-        channel = connection.channel()
-    channel.add_on_cancel_callback(close_callback)
-    # 任务队列的queue
-    channel.queue_declare(queue='dl_task', auto_delete=True)
+    # 任务连接
+    job_conn = JobConn()
     #监控任务队列
     while True:
         try:
@@ -158,13 +164,13 @@ def super_proc():
                 item_list = db.get_novideo_item_more(32)
                 for item in item_list:
                     content = json.dumps(item, cls=ItemEncoder)
-                    channel.basic_publish(exchange='',
+                    job_conn.channel.basic_publish(exchange='',
                                           routing_key='dl_task',
                                           body=content)
                 logging.info("[J]have loadded.")
             time.sleep(5)
         except pika.exceptions.ConnectionClosed:
-            close_callback()
+            job_conn.close_callback()
 if __name__ == '__main__':
     init_log()
     """

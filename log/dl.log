@@ -1,25 +1,64 @@
-Sun, 02 Apr 2017 11:27:39 videodl.py[line:65] INFO =============================
-Sun, 02 Apr 2017 11:27:39 videodl.py[line:66] INFO Proccess item(58ddd92409f9c22840ccec3a).
-Sun, 02 Apr 2017 11:27:39 videodl.py[line:71] INFO video id is 1003687003,1004219036.
-Sun, 02 Apr 2017 11:27:39 videodl.py[line:72] INFO Begin downloading.
-Sun, 02 Apr 2017 11:27:39 connectionpool.py[line:212] DEBUG Starting new HTTP connection (1): study.163.com
-Sun, 02 Apr 2017 11:27:39 connectionpool.py[line:400] DEBUG http://study.163.com:80 "GET /course/courseLearn.htm?courseId=1004219036 HTTP/1.1" 302 0
-Sun, 02 Apr 2017 11:27:40 connectionpool.py[line:400] DEBUG http://study.163.com:80 "GET /systemError.htm HTTP/1.1" 200 None
-Sun, 02 Apr 2017 11:27:40 connectionpool.py[line:400] DEBUG http://study.163.com:80 "POST /dwr/call/plaincall/LessonLearnBean.getVideoLearnInfo.dwr?1491103660093= HTTP/1.1" 200 None
-Sun, 02 Apr 2017 11:27:40 wy163_obt.py[line:87] INFO got 1 media.
-Sun, 02 Apr 2017 11:27:40 wy163_obt.py[line:97] INFO downloading...0
-Sun, 02 Apr 2017 11:29:08 wy163_obt.py[line:102] INFO finish this
-Sun, 02 Apr 2017 11:29:08 videodl.py[line:84] INFO got 1 media.
-Sun, 02 Apr 2017 11:29:08 videodl.py[line:89] INFO analyze media and create item.
-Sun, 02 Apr 2017 11:29:08 videodl.py[line:103] INFO extract audio.
-Sun, 02 Apr 2017 11:29:16 audio_extractor.py[line:20] INFO extract successfully.
-Sun, 02 Apr 2017 11:29:16 videodl.py[line:109] INFO start qiniu-cloud engine
-Sun, 02 Apr 2017 11:29:16 connectionpool.py[line:809] DEBUG Starting new HTTPS connection (1): uc.qbox.me
-Sun, 02 Apr 2017 11:29:17 connectionpool.py[line:400] DEBUG https://uc.qbox.me:443 "GET /v1/query?ak=2hCizo1I0UNtRUMkr7Lztw18PO3cT48IjayfmDo9&bucket=vediosearch HTTP/1.1" 200 262
-Sun, 02 Apr 2017 11:29:17 retry.py[line:191] DEBUG Converted retries value: 3 -> Retry(total=3, connect=None, read=None, redirect=None)
-Sun, 02 Apr 2017 11:29:17 connectionpool.py[line:212] DEBUG Starting new HTTP connection (1): up-z2.qiniu.com
-Sun, 02 Apr 2017 11:29:23 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
-Sun, 02 Apr 2017 11:29:31 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
-Sun, 02 Apr 2017 11:29:35 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 339
-Sun, 02 Apr 2017 11:29:40 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
-Sun, 02 Apr 2017 11:29:46 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
+Wed, 05 Apr 2017 21:19:05 videodl.py[line:53] INFO =============================
+Wed, 05 Apr 2017 21:19:05 videodl.py[line:54] INFO Proccess item(58e4ed5ca939b7b10bb0fc5c).
+Wed, 05 Apr 2017 21:19:05 videodl.py[line:59] INFO video id is 3225.
+Wed, 05 Apr 2017 21:19:05 videodl.py[line:60] INFO Begin downloading.
+Wed, 05 Apr 2017 21:19:26 imooc_obt.py[line:70] INFO got 3 media.
+Wed, 05 Apr 2017 21:19:26 imooc_obt.py[line:79] INFO downloading...0
+Wed, 05 Apr 2017 21:19:59 imooc_obt.py[line:84] INFO finish this
+Wed, 05 Apr 2017 21:19:59 videodl.py[line:72] INFO got 1 media.
+Wed, 05 Apr 2017 21:19:59 videodl.py[line:77] INFO analyze media and create item.
+Wed, 05 Apr 2017 21:19:59 videodl.py[line:91] INFO extract audio.
+Wed, 05 Apr 2017 21:20:01 audio_extractor.py[line:20] INFO extract successfully.
+Wed, 05 Apr 2017 21:20:01 videodl.py[line:97] INFO start qiniu-cloud engine
+Wed, 05 Apr 2017 21:20:01 connectionpool.py[line:809] DEBUG Starting new HTTPS connection (1): uc.qbox.me
+Wed, 05 Apr 2017 21:20:01 connectionpool.py[line:400] DEBUG https://uc.qbox.me:443 "GET /v1/query?ak=2hCizo1I0UNtRUMkr7Lztw18PO3cT48IjayfmDo9&bucket=test-vs HTTP/1.1" 200 262
+Wed, 05 Apr 2017 21:20:02 retry.py[line:191] DEBUG Converted retries value: 3 -> Retry(total=3, connect=None, read=None, redirect=None)
+Wed, 05 Apr 2017 21:20:02 connectionpool.py[line:212] DEBUG Starting new HTTP connection (1): up-z2.qiniu.com
+Wed, 05 Apr 2017 21:20:07 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST / HTTP/1.1" 200 84
+Wed, 05 Apr 2017 21:20:07 videodl.py[line:101] INFO finish upload qiniu-cloud
+Wed, 05 Apr 2017 21:20:07 videodl.py[line:102] INFO remove dir
+Wed, 05 Apr 2017 21:20:07 videodl.py[line:106] INFO rmdir failed
+Wed, 05 Apr 2017 21:20:13 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
+Wed, 05 Apr 2017 21:20:18 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
+Wed, 05 Apr 2017 21:20:22 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/2816022 HTTP/1.1" 200 339
+Wed, 05 Apr 2017 21:20:22 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkfile/11204630/mimeType/YXBwbGljYXRpb24vb2N0ZXQtc3RyZWFt/key/MS81OGU0NTMwNmMxMjUxM2I4NjRhYjk4YjQvN2U0ZDZlNzAtMWEwMi0xMWU3LWJhOGYtMTRkZGE5MGE2NjdlLm1wNA==/fname/N2U0ZDZlNzAtMWEwMi0xMWU3LWJhOGYtMTRkZGE5MGE2NjdlLm1wNA== HTTP/1.1" 200 115
+Wed, 05 Apr 2017 21:20:23 videodl.py[line:118] INFO submit results.
+Wed, 05 Apr 2017 21:20:23 heartbeat.py[line:74] DEBUG Received heartbeat frame
+Wed, 05 Apr 2017 21:20:23 heartbeat.py[line:85] DEBUG Received 1 heartbeat frames, sent 0
+Wed, 05 Apr 2017 21:20:23 heartbeat.py[line:144] DEBUG Sending heartbeat frame
+Wed, 05 Apr 2017 21:20:23 videodl.py[line:120] INFO ALL finish.
+Wed, 05 Apr 2017 21:20:23 videodl.py[line:136] INFO =============================
+Wed, 05 Apr 2017 21:20:23 heartbeat.py[line:74] DEBUG Received heartbeat frame
+Wed, 05 Apr 2017 21:20:23 heartbeat.py[line:85] DEBUG Received 1 heartbeat frames, sent 0
+Wed, 05 Apr 2017 21:20:23 heartbeat.py[line:144] DEBUG Sending heartbeat frame
+Wed, 05 Apr 2017 21:20:23 videodl.py[line:53] INFO =============================
+Wed, 05 Apr 2017 21:20:23 videodl.py[line:54] INFO Proccess item(58e4ed5ca939b7b10bb0fc61).
+Wed, 05 Apr 2017 21:20:23 videodl.py[line:59] INFO video id is 3225.
+Wed, 05 Apr 2017 21:20:23 videodl.py[line:60] INFO Begin downloading.
+Wed, 05 Apr 2017 21:20:44 imooc_obt.py[line:70] INFO got 3 media.
+Wed, 05 Apr 2017 21:20:44 imooc_obt.py[line:79] INFO downloading...0
+Wed, 05 Apr 2017 21:20:59 imooc_obt.py[line:84] INFO finish this
+Wed, 05 Apr 2017 21:20:59 videodl.py[line:72] INFO got 1 media.
+Wed, 05 Apr 2017 21:20:59 videodl.py[line:77] INFO analyze media and create item.
+Wed, 05 Apr 2017 21:20:59 videodl.py[line:91] INFO extract audio.
+Wed, 05 Apr 2017 21:21:00 audio_extractor.py[line:20] INFO extract successfully.
+Wed, 05 Apr 2017 21:21:00 videodl.py[line:97] INFO start qiniu-cloud engine
+Wed, 05 Apr 2017 21:21:05 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST / HTTP/1.1" 200 84
+Wed, 05 Apr 2017 21:21:05 videodl.py[line:101] INFO finish upload qiniu-cloud
+Wed, 05 Apr 2017 21:21:05 videodl.py[line:102] INFO remove dir
+Wed, 05 Apr 2017 21:21:05 videodl.py[line:106] INFO rmdir failed
+Wed, 05 Apr 2017 21:21:11 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
+Wed, 05 Apr 2017 21:21:16 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/4194304 HTTP/1.1" 200 340
+Wed, 05 Apr 2017 21:21:20 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkblk/2816022 HTTP/1.1" 200 339
+Wed, 05 Apr 2017 21:21:20 connectionpool.py[line:400] DEBUG http://up-z2.qiniu.com:80 "POST /mkfile/11204630/mimeType/YXBwbGljYXRpb24vb2N0ZXQtc3RyZWFt/key/MS81OGU0NTMwNmMxMjUxM2I4NjRhYjk4YjQvYWM5Y2U2NzAtMWEwMi0xMWU3LTkxY2YtMTRkZGE5MGE2NjdlLm1wNA==/fname/YWM5Y2U2NzAtMWEwMi0xMWU3LTkxY2YtMTRkZGE5MGE2NjdlLm1wNA== HTTP/1.1" 200 115
+Wed, 05 Apr 2017 21:21:21 videodl.py[line:118] INFO submit results.
+Wed, 05 Apr 2017 21:21:21 heartbeat.py[line:74] DEBUG Received heartbeat frame
+Wed, 05 Apr 2017 21:21:21 videodl.py[line:120] INFO ALL finish.
+Wed, 05 Apr 2017 21:21:21 videodl.py[line:136] INFO =============================
+Wed, 05 Apr 2017 21:21:21 heartbeat.py[line:74] DEBUG Received heartbeat frame
+Wed, 05 Apr 2017 21:21:21 videodl.py[line:53] INFO =============================
+Wed, 05 Apr 2017 21:21:21 videodl.py[line:54] INFO Proccess item(58e4ed5ca939b7b10bb0fc66).
+Wed, 05 Apr 2017 21:21:21 videodl.py[line:59] INFO video id is 3225.
+Wed, 05 Apr 2017 21:21:21 videodl.py[line:60] INFO Begin downloading.
+Wed, 05 Apr 2017 21:21:21 imooc_obt.py[line:70] INFO got 3 media.
+Wed, 05 Apr 2017 21:21:21 imooc_obt.py[line:79] INFO downloading...0

@@ -20,7 +20,7 @@ class CommonRpcClient(object):
     def __init__(self):
         # 建立到RabbitMQ Server的connection
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(
-            host='localhost'))
+            host=cfg.server_name, port=cfg.server_port))
         self.channel = self.connection.channel()
 
         # 声明一个临时的回调队列
@@ -95,7 +95,7 @@ def init_config():
 init_config()
 # 创建任务连接
 job_connection = pika.BlockingConnection(pika.ConnectionParameters(
-    host='localhost'))
+    host=cfg.server_name, port=cfg.server_port))
 job_channel = job_connection.channel()
 job_channel.queue_declare(queue='dl_task', auto_delete=True)
 def get_job():
@@ -114,7 +114,7 @@ def get_job():
     if not received:
         #重连
         job_connection = pika.BlockingConnection(pika.ConnectionParameters(
-            host='localhost'))
+            host=cfg.server_name, port=cfg.server_port))
         job_channel = job_connection.channel()
         job_channel.queue_declare(queue='dl_task', auto_delete=True)
         return None
@@ -124,7 +124,6 @@ def get_job():
     global d_tag
     d_tag = received[0].delivery_tag
     data = received_body.strip().strip('"')
-    print data
     item_dict = json.loads(data)
     job_item = VideoItem()
     job_item.load_dict(item_dict)

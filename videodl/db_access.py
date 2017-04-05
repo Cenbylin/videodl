@@ -75,7 +75,7 @@ class VideoDB:
         )
         for obj in objs:
             # orm操作
-            if not obj:
+            if (not obj) and (not obj["_id"]):
                 return None
             video_item = VideoItem()
             video_item.load_dict(obj)

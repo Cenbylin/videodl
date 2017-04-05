@@ -13,12 +13,11 @@ import copy
 import dl_config as cfg
 from dl_exceptions import NoDataException
 from obtainers.obt_exceptions import NotSupportedException
-from db_access import VideoDB
-import  qiniu_cloud
+import qiniu_cloud
 import obtainer
 import video_analyzer
 import audio_extractor
-
+import dispatcher
 '''
 日志初始化
 '''
@@ -35,15 +34,6 @@ def init_log():
     console.setFormatter(formatter)
     logging.getLogger('').addHandler(console)
 
-def rollback(id_list):
-    """
-    异常回滚
-    :param id_list:
-    :return:
-    """
-    for objectId in id_list:
-        db.delete_video_item(objectId)
-    
 if __name__ == '__main__':
     history_id_list = []
     '''
@@ -51,14 +41,12 @@ if __name__ == '__main__':
     '''
     #初始化日志
     init_log()
-    #连接获得数据库实例
-    db = VideoDB(cfg.db_host, cfg.db_port, cfg.db_name, cfg.db_authdb, cfg.db_username, cfg.db_password)
     while True:
         try:
             '''
            获得任务
             '''
-            video_item = db.get_novideo_item()
+            video_item = dispatcher.get_job()
             # 无数据抛出异常
             if not video_item:
                 raise NoDataException()
@@ -78,7 +66,7 @@ if __name__ == '__main__':
             except NotSupportedException:
                 # 加标识
                 video_item.memory_path = "NotSupported"
-                db.update_video_item(video_item)
+                dispatcher.submit_result(video_item._id, video_item)
                 # 外层抛
                 raise NotSupportedException
             logging.info("got %d media." % len(media_infos))
@@ -127,13 +115,8 @@ if __name__ == '__main__':
             '''
             入库
             '''
-            for item in items:
-                db.insert_video_item(item)
-                history_id_list.append(item._id)
-            logging.info("success and insert into db.")
-            #删除原始记录
-            logging.info("delete the template item of db.")
-            db.delete_video_item(video_item._id)
+            logging.info("submit results.")
+            dispatcher.submit_result(video_item._id, items)
             logging.info("ALL finish.")
         except NoDataException:
                 logging.error("No pre-data in database, waiting for retry...")
@@ -146,16 +129,10 @@ if __name__ == '__main__':
         except IOError:
             logging.error("Get data failed for NetWork's problem, waiting for retry...")
             # 网络原因，无法获得请求结果
-            '''
-            :删除已经产生的数据
-           '''
-            rollback(history_id_list)
             time.sleep(2)
         except Exception,e:
-            rollback(history_id_list)
             print traceback.format_exc()
         finally:
-            history_id_list = []
             logging.info("=============================")
 
 
