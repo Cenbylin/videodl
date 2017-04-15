@@ -25,9 +25,13 @@ def __get_sources(video_id):
     json_str = f.read()
     #结果
     data = json.loads(json_str)
-    if not data['data']['result']['mpath']:
+    try:
+        mpath = data['data']['result']['mpath']
+    except Exception:
         raise NotSupportedException
-    return data['data']['result']['mpath']
+    if (not mpath) or (mpath==""):
+        raise NotSupportedException
+    return mpath
 
 
 def __download_and_save(url, pathlist):

@@ -107,7 +107,7 @@ def __get_queue_count(queue_name):
     :param queue_name: 
     :return: 
     """
-    r = os.popen("rabbitmqctl list_queues")  # 执行该命令
+    r = os.popen("rabbitmqctl list_queues name messages_ready")  # 执行该命令
     info = r.readlines()
     for line in info:
         if line.startswith(queue_name):
@@ -119,7 +119,8 @@ def __get_queue_count(queue_name):
 def sub_proc():
     logging.info("[0]rpc-engine start.")
     # 建立到达RabbitMQ Server的connection
-    credentials = pika.PlainCredentials('admin','12345')
+    #credentials = pika.PlainCredentials('admin','12345')
+    credentials = None
     connection = pika.BlockingConnection(pika.ConnectionParameters(
         '127.0.0.1', 5672, '/', credentials))
     channel = connection.channel()
@@ -138,7 +139,8 @@ def sub_proc():
 class JobConn():
     def init_conn(self):
         # 建立到达RabbitMQ Server的connection
-        self.credentials = pika.PlainCredentials('admin', '12345')
+        #self.credentials = pika.PlainCredentials('admin', '12345')
+        self.credentials = None
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(
             '127.0.0.1', 5672, '/', self.credentials))
         self.channel = self.connection.channel()

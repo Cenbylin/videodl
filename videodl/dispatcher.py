@@ -9,6 +9,7 @@ import json
 import time
 import pika
 import uuid
+import logging
 from items.VideoItem import VideoItem
 from utils import ItemEncoder
 
@@ -18,9 +19,10 @@ from utils import ItemEncoder
 # 在一个类中封装了connection建立、queue声明、consumer配置、回调函数等
 class CommonRpcClient(object):
     def __init__(self):
+        credentials = pika.PlainCredentials(cfg.client_acount, cfg.client_pwd)
         # 建立到RabbitMQ Server的connection
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(
-            host=cfg.server_name, port=cfg.server_port))
+            host=cfg.server_name, port=cfg.server_port, credentials=credentials,heartbeat_interval=0))
         self.channel = self.connection.channel()
 
         # 声明一个临时的回调队列
@@ -40,6 +42,11 @@ class CommonRpcClient(object):
         if self.corr_id == props.correlation_id:
             self.response = body
 
+    def close_callback(self):
+            """断开重连"""
+            logging.info("RPC connection blocked.now reconnect")
+            self.__init__()
+
     def get_config(self):
         # 初始化response和corr_id属性
         self.response = None
@@ -48,14 +55,19 @@ class CommonRpcClient(object):
         # 使用默认exchange向server中定义的rpc_queue发送消息
         # 在properties中指定replay_to属性和correlation_id属性用于告知远程server
         # correlation_id属性用于匹配request和response
-        self.channel.basic_publish(exchange='',
-                                   routing_key='rpc_getconfig',
-                                   properties=pika.BasicProperties(
-                                       reply_to=self.callback_queue,
-                                       correlation_id=self.corr_id,
-                                   ),
-                                   # message需为字符串
-                                   body="")
+        try:
+            self.channel.basic_publish(exchange='',
+                                       routing_key='rpc_getconfig',
+                                       properties=pika.BasicProperties(
+                                           reply_to=self.callback_queue,
+                                           correlation_id=self.corr_id,
+                                       ),
+                                       # message需为字符串
+                                       body="")
+        except pika.exceptions.ConnectionClosed:
+            #重连后重新调用
+            self.close_callback()
+            return self.get_config()
 
         while self.response is None:
             self.connection.process_data_events()
@@ -69,14 +81,19 @@ class CommonRpcClient(object):
         # 使用默认exchange向server中定义的rpc_queue发送消息
         # 在properties中指定replay_to属性和correlation_id属性用于告知远程server
         # correlation_id属性用于匹配request和response
-        self.channel.basic_publish(exchange='',
-                                   routing_key='rpc_submitresult',
-                                   properties=pika.BasicProperties(
-                                       reply_to=self.callback_queue,
-                                       correlation_id=self.corr_id,
-                                   ),
-                                   # message需为字符串
-                                   body=content)
+        try:
+            self.channel.basic_publish(exchange='',
+                                       routing_key='rpc_submitresult',
+                                       properties=pika.BasicProperties(
+                                           reply_to=self.callback_queue,
+                                           correlation_id=self.corr_id,
+                                       ),
+                                       # message需为字符串
+                                       body=content)
+        except pika.exceptions.ConnectionClosed:
+            #重连后重新调用
+            self.close_callback()
+            return self.submit_result(content)
 
         while self.response is None:
             self.connection.process_data_events()
@@ -93,11 +110,19 @@ def init_config():
 
 # 获取信息
 init_config()
-# 创建任务连接
-job_connection = pika.BlockingConnection(pika.ConnectionParameters(
-    host=cfg.server_name, port=cfg.server_port))
-job_channel = job_connection.channel()
-job_channel.queue_declare(queue='dl_task', auto_delete=True)
+class JobConn():
+    def __init__(self):
+        # 创建任务连接
+        self.credentials = pika.PlainCredentials(cfg.client_acount, cfg.client_pwd)
+        self.job_connection = pika.BlockingConnection(pika.ConnectionParameters(
+            host=cfg.server_name, port=cfg.server_port, credentials=self.credentials, heartbeat_interval=0))
+        self.job_channel = self.job_connection.channel()
+        self.job_channel.queue_declare(queue='dl_task', auto_delete=True)
+    def close_callback(self):
+        self.__init__()
+
+#任务队列实例
+dl_job_conn = JobConn()
 def get_job():
     """
     获得任务item
@@ -107,16 +132,13 @@ def get_job():
     received = None
     global job_channel
     try:
-        received = job_channel.basic_get(queue="dl_task")
+        received = dl_job_conn.job_channel.basic_get(queue="dl_task")
     except Exception:
         pass
     # 处理获得为空的情况
     if not received:
         #重连
-        job_connection = pika.BlockingConnection(pika.ConnectionParameters(
-            host=cfg.server_name, port=cfg.server_port))
-        job_channel = job_connection.channel()
-        job_channel.queue_declare(queue='dl_task', auto_delete=True)
+        dl_job_conn.close_callback()
         return None
     elif not received[1]:
         return None
@@ -138,7 +160,16 @@ def submit_result(old_item_id, item_list):
     res_dict = {"old_item_id":str(old_item_id), "item_list":item_list}
     json_str = json.dumps(res_dict, cls=ItemEncoder)
     commonRpcClient.submit_result(json_str)
-    job_channel.basic_ack(delivery_tag = d_tag)
+    # 处理成功回调
+    job_ack()
+
+def job_ack():
+    try:
+        dl_job_conn.job_channel.basic_ack(delivery_tag=d_tag)
+    except pika.exceptions.ConnectionClosed:
+        # 重连后重新调用
+        dl_job_conn.close_callback()
+        job_ack()
 
 if __name__ == '__main__':
     while True:

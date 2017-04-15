@@ -13,6 +13,7 @@ import logging
 import requests
 import time
 from MediaInfo import MediaInfo
+import re
 
 def GetMiddleStr(content,startStr,endStr):
   startIndex = content.index(startStr)
@@ -43,9 +44,20 @@ def __get_sources(lessonId_courseId):
               + sessionId + "&c0-scriptName=LessonLearnBean&c0-methodName=getVideoLearnInfo&c0-id=0" \
               + "&c0-param0=string%3A" + courseId + "&c0-param1=string%3A" + lessonId + "&batchId=" + time_str
     response = s.request("POST", url, data=payload, params=querystring)
-    urls = response.text.split("\n")[4]
-    hdUrl = GetMiddleStr(urls, "mp4HdUrl=\"", "\";s1.")
-    return [hdUrl]
+    urlcontent = response.text
+    flv_hd_url = re.findall('.flvHdUrl=(.*?);', urlcontent)
+    flv_sd_url = re.findall('.flvSdUrl=(.*?);', urlcontent)
+    flv_shd_url = re.findall('.flvShdUrl=(.*?);', urlcontent)
+    mp4_hd_url = re.findall('.mp4HdUrl=(.*?);', urlcontent)
+    mp4_sd_url = re.findall('.mp4SdUrl=(.*?);', urlcontent)
+    mp4_shd_url = re.findall('.mp4ShdUrl=(.*?);', urlcontent)
+    vd_list = [mp4_shd_url, mp4_sd_url, mp4_hd_url, flv_shd_url, flv_sd_url, flv_hd_url]
+    final_url = []
+    for sub_url in vd_list:
+        if len(sub_url) > 0 and sub_url[0]!="null":
+            final_url.append(sub_url[0].strip().strip('"'))
+            break
+    return final_url
 
 def __download_and_save(url, pathlist):
     """
@@ -101,21 +113,42 @@ def get_media(key, path_list):
     media_infos.append(MediaInfo(media_path, dir_path, media_name, media_format))
     logging.info("finish this")
     return media_infos
-if __name__ == '__main__':
-    lessonId = "1003687003"
-    courseId = "1004219036"
+
+def get_sources(lessonId_courseId):
+    """
+    得到视频真实下载地址list
+    :param lessonId:
+    :param courseId:
+    :return:
+    """
+    temparr = str(lessonId_courseId).split(",")
+    lessonId = temparr[0]
+    courseId = temparr[1]
     # 创建session
     s = requests.session()
     s.get("http://study.163.com/course/courseLearn.htm?courseId=%s" % courseId)
     sessionId = s.cookies["NTESSTUDYSI"]
     othercookie = s.cookies["EDUWEBDEVICE"]
-    time_str = str(int(time.time()*1000))
+    time_str = str(int(time.time() * 1000))
     url = "http://study.163.com/dwr/call/plaincall/LessonLearnBean.getVideoLearnInfo.dwr"
     querystring = {time_str: ""}
-    payload = "callCount=1&scriptSessionId=%24%7BscriptSessionId%7D190&httpSessionId="\
-              + sessionId + "&c0-scriptName=LessonLearnBean&c0-methodName=getVideoLearnInfo&c0-id=0"\
-              +"&c0-param0=string%3A"+courseId+"&c0-param1=string%3A"+lessonId+"&batchId="+time_str
+    payload = "callCount=1&scriptSessionId=%24%7BscriptSessionId%7D190&httpSessionId=" \
+              + sessionId + "&c0-scriptName=LessonLearnBean&c0-methodName=getVideoLearnInfo&c0-id=0" \
+              + "&c0-param0=string%3A" + courseId + "&c0-param1=string%3A" + lessonId + "&batchId=" + time_str
     response = s.request("POST", url, data=payload, params=querystring)
-    print response.text
-
-
+    urlcontent = response.text
+    flv_hd_url = re.findall('.flvHdUrl=(.*?);', urlcontent)
+    flv_sd_url = re.findall('.flvSdUrl=(.*?);', urlcontent)
+    flv_shd_url = re.findall('.flvShdUrl=(.*?);', urlcontent)
+    mp4_hd_url = re.findall('.mp4HdUrl=(.*?);', urlcontent)
+    mp4_sd_url = re.findall('.mp4SdUrl=(.*?);', urlcontent)
+    mp4_shd_url = re.findall('.mp4ShdUrl=(.*?);', urlcontent)
+    vd_list = [mp4_shd_url, mp4_sd_url, mp4_hd_url, flv_shd_url, flv_sd_url, flv_hd_url]
+    final_url = ""
+    for sub_url in vd_list:
+        if len(sub_url) > 0 and sub_url[0]!="null":
+            final_url = sub_url[0].strip().strip('"')
+            break
+    return final_url
+if __name__ == '__main__':
+    print get_sources("224012,330223");
